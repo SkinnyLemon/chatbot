@@ -1,5 +1,11 @@
-/.idea/
-/config/
-/project/project/
-/project/target/
-/target/
+.idea/
+config/
+project/project/
+project/target/
+target/
+.bsp/
+.bloop/
+.metals/
+.vscode/
+project/.bloop/
+project/metals.sbt
