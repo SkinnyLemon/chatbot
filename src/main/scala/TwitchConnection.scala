@@ -53,7 +53,7 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
     }
   }
 
-  override def join(channel: String): Unit = send(s"JOIN #$channel\r\n")
+  override def join(channel: String): Unit = send(s"JOIN #${channel.toLowerCase}\r\n")
 
   override def send(message: String): Unit = {
     output.write(message)
