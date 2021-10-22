@@ -44,7 +44,7 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
     val token = input.readLine
     if (token == null)
       return
-    println(token)
+    //println(token)
     if (token.startsWith("PING")) {
       output.write("PONG :tmi.twitch.tv\r\n")
       output.flush()
