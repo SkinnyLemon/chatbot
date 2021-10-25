@@ -1,6 +1,7 @@
-package de.htwg.rs.chatbot.service
+package de.htwg.rs.chatbot
+package model
 
-import de.htwg.rs.chatbot.model.*
+import model.*
 
 import scala.util.{Failure, Success, Try}
 
@@ -20,16 +21,19 @@ class TwitchInputParser:
 
     val tagMap = parseTags(rawTags)
 
-    channelParser.parseToChannel(tagMap, channelName) match {
-      case Success(channel) => userParser.parseToUser(tagMap, userName) match {
-        case Success(user) => messageParser.parseToMessage(tagMap, rawMessage) match {
-          case Success(message) => Success(TwitchInput(channel, user, message))
-          case Failure(error) => Failure(error)
-        }
-        case Failure(error) => Failure(error)
-      }
-      case Failure(error) => Failure(error)
+    val channel = channelParser.parseToChannel(tagMap, channelName) match {
+      case Success(channel) => channel
+      case Failure(e) => return Failure(e)
     }
+    val message = messageParser.parseToMessage(tagMap, rawMessage) match {
+      case Success(message) => message
+      case Failure(e) => return Failure(e)
+    }
+    val user = userParser.parseToUser(tagMap, userName) match {
+      case Success(user) => user
+      case Failure(e) => return Failure(e)
+    }
+    Success(TwitchInput(channel, user, message))
   }
 
   private def parseTags(toParse: String): Map[String, String] = toParse

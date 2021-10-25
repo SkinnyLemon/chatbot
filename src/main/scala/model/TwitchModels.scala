@@ -1,4 +1,5 @@
-package de.htwg.rs.chatbot.model
+package de.htwg.rs.chatbot
+package model
 
 case class TwitchInput(channel: Channel, user: User, message: Message)
 

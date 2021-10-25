@@ -1,10 +1,14 @@
-package de.htwg.rs.chatbot.service
-import de.htwg.rs.chatbot.TwitchConsumer
+package de.htwg.rs.chatbot
+package control
+
+import de.htwg.rs.chatbot.io.TwitchConsumer
+import de.htwg.rs.chatbot.model.TwitchInputParser
 
 import scala.util.{Failure, Success, Try}
 
-class TwitchConsumerImpl extends TwitchConsumer {
+class TwitchInputProvider extends TwitchConsumer {
   val parser = new TwitchInputParser()
+  private var messages = 0
 
   override def onMessage(message: String): Unit = {
     //println(message)
@@ -12,6 +16,8 @@ class TwitchConsumerImpl extends TwitchConsumer {
       val twitchInput = parser.parseToTwitchInput(message) match {
         case Success(twitchInput) =>
           println(twitchInput)
+          println(messages)
+          messages += 1
         case Failure(error) =>
           error.printStackTrace()
       }

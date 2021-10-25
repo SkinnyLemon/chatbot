@@ -1,7 +1,9 @@
 package de.htwg.rs.chatbot
+package io
 
 import java.io.{BufferedReader, BufferedWriter, InputStreamReader, OutputStreamWriter}
 import java.net.Socket
+import scala.util.{Failure, Try}
 
 trait TwitchOutput {
   def send(message: String): Unit
@@ -49,7 +51,8 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
       output.write("PONG :tmi.twitch.tv\r\n")
       output.flush()
     } else {
-      subscribers.foreach(_.onMessage(token))
+      subscribers.map(sub => Try(sub.onMessage(token)))
+        .foreach(_.recover(_.printStackTrace()))
     }
   }
 

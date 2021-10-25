@@ -1,10 +1,9 @@
-import de.htwg.rs.chatbot.model.{Channel, User, Emote, Message}
-import de.htwg.rs.chatbot.service.{ChannelParser, MessageParser, UserParser}
+import de.htwg.rs.chatbot.model.{Channel, ChannelParser, Emote, Message, MessageParser, User, UserParser}
 import org.scalatest.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-class TwitchInputParserServiceTest extends AnyWordSpec with Matchers {
+class TwitchInputParserTest extends AnyWordSpec with Matchers {
     
     val tagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-10"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"), 
     ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))

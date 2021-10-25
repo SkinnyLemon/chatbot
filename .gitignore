@@ -9,3 +9,4 @@ target/
 .vscode/
 project/.bloop/
 project/metals.sbt
+**/*.worksheet.sc
