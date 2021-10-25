@@ -6,7 +6,7 @@ import java.net.Socket
 import scala.util.{Failure, Try}
 
 trait TwitchOutput {
-  def send(message: String): Unit
+  def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit
 }
 
 trait TwitchInput {
@@ -24,7 +24,7 @@ trait TwitchConnection {
 
   def getInput: TwitchInput
 
-  def run(): Unit                             // TODO change to start for seperate Thread
+  def run(): Unit // TODO change to start for seperate Thread
 }
 
 object TwitchConnection {
@@ -44,9 +44,10 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
 
   override def run(): Unit = while (true) {
     val token = input.readLine
-    if (token == null)
+    if (token == null) {
       return
-    //println(token)
+    }
+    println(token)
     if (token.startsWith("PING")) {
       output.write("PONG :tmi.twitch.tv\r\n")
       output.flush()
@@ -56,10 +57,20 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
     }
   }
 
-  override def join(channel: String): Unit = send(s"JOIN #${channel.toLowerCase}\r\n")
+  override def join(channel: String): Unit = send(s"JOIN #${channel.toLowerCase}")
 
-  override def send(message: String): Unit = {
-    output.write(message)
+  override def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit =
+    var tagString = tags
+      .map { case (key, value) => s"$key=$value" }
+      .mkString(";")
+    tagString =
+      if (tags.isEmpty) ""
+      else s"@$tagString"
+    send(s"$tagString PRIVMSG #$channel :$message")
+
+  private def send(text: String): Unit = {
+    println(text)
+    output.write(s"$text\r\n")
     output.flush()
   }
 

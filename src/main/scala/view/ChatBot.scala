@@ -9,7 +9,8 @@ object ChatBot {
     val bot = Config.bots.head
     val twitchConnection = TwitchConnection.establishConnection(bot.name, bot.auth)
     val twitchInput = twitchConnection.getInput
-    twitchInput.subscribe(new TwitchInputProvider())
+    val twitchOutput = twitchConnection.getOutput
+    twitchInput.subscribe(new TwitchInputProvider(twitchOutput))
     args.foreach(twitchConnection.join(_))
     twitchConnection.run()
   }

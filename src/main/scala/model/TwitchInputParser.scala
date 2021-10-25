@@ -9,7 +9,7 @@ class TwitchInputParser:
   val channelParser = new ChannelParser()
   val userParser = new UserParser()
   val messageParser = new MessageParser()
-  
+
   def parseToTwitchInput(toParse: String): Try[TwitchInput] = {
     val split = toParse.split(" ")
     if (split.length < 5)
@@ -74,8 +74,12 @@ class MessageParser:
       case Success(rawEmotes) => rawEmotes.split("/").flatMap(parseToEmote)
       case _ => Array.empty[Emote]
     }
+    val id = Try(tags("id")) match {
+      case Success(id) => id
+      case _ => return Failure(new IllegalArgumentException("No id in tags"))
+    }
     Try(tags("tmi-sent-ts")) match {
-      case Success(timeStamp) => Success(Message(emotes, message, timeStamp.toLong))
+      case Success(timeStamp) => Success(Message(emotes, message, timeStamp.toLong, id))
       case _ => Failure(new IllegalArgumentException("No tmi-sent-ts in tags"))
     }
 
