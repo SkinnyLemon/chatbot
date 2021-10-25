@@ -15,7 +15,7 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     val channelName = "MyTwitchChannelName"
     val channelTry = parser.parseToChannel(tagsMap, channelName)
 
-    "should parse a valid input" in {
+    "parse a valid input" in {
       channelTry.isSuccess shouldBe true
     }
 
@@ -23,10 +23,10 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     "return a channel object" in {
       channel shouldBe a[Channel]
     }
-    "should create an object with the desired name" in {
+    "create an object with the desired name" in {
       channel.name should be(channelName) // @ Tobi, gibt es hier eine best practise wegen String?
     }
-    "should hold the roomId as it passed in the tags" in {
+    "hold the roomId as it passed in the tags" in {
       channel.roomId should be(tagsMap("room-id"))
     }
   }
@@ -36,7 +36,7 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     val userName = "RonnieRonaldo"
     val userTry = parser.parseToUser(tagsMap, userName)
 
-    "should parse a valid input" in {
+    "parse a valid input" in {
       userTry.isSuccess shouldBe true
     }
 
@@ -44,13 +44,13 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     "return a user object" in {
       user shouldBe a[User]
     }
-    "should create an user with the desired username" in {
+    "create an user with the desired username" in {
       user.userName should be(userName)
     }
-    "should create an user with the desired display name" in {
+    "create an user with the desired display name" in {
       user.displayName should be(tagsMap("display-name"))
     }
-    "should hold the userId as it is passed in the tags" in {
+    "hold the userId as it is passed in the tags" in {
       user.userId should be(tagsMap("user-id"))
     }
   }
@@ -60,7 +60,7 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     val msg = "kappa"
     val messageTry = parser.parseToMessage(tagsMap, msg)
 
-    "should parse a valid input" in {
+    "parse a valid input" in {
       messageTry.isSuccess shouldBe true
     }
 
@@ -68,13 +68,13 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     "return a message object" in {
       message shouldBe a[Message]
     }
-    "should hold a message" in {
+    "hold a message" in {
       message.text should be(msg)
     }
-    "should have a timestamp of type Long" in {
+    "have a timestamp of type Long" in {
       message.timeStamp shouldBe a[Long]
     }
-    "should hold an array of emotes" in {
+    "hold an array of emotes" in {
       message.emotes(0) shouldBe a[Emote]
     }
   }

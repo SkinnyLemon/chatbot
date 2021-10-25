@@ -24,7 +24,7 @@ trait TwitchConnection {
 
   def getInput: TwitchInput
 
-  def run(): Unit // TODO change to start for seperate Thread
+  def start(): Unit // TODO change to start for seperate Thread
 }
 
 object TwitchConnection {

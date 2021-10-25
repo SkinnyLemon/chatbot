@@ -1,14 +1,11 @@
 package de.htwg.rs.chatbot
 package model
 
-import model.*
-
 import scala.util.{Failure, Success, Try}
 
-class TwitchInputParser:
-  val channelParser = new ChannelParser()
-  val userParser = new UserParser()
-  val messageParser = new MessageParser()
+class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
+                        userParser: UserParser = new UserParser(),
+                        messageParser: MessageParser = new MessageParser()):
 
   def parseToTwitchInput(toParse: String): Try[TwitchInput] = {
     val split = toParse.split(" ")
