@@ -1,10 +1,10 @@
-import org.scalatest._
+import de.htwg.rs.chatbot.model.{Channel, User, Emote, Message}
+import de.htwg.rs.chatbot.service.{ChannelParser, MessageParser, UserParser}
+import org.scalatest.*
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import service._
-import model._
 
-class TwitchMessageParserServiceTest extends AnyWordSpec with Matchers {
+class TwitchInputParserServiceTest extends AnyWordSpec with Matchers {
     
     val tagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-10"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"), 
     ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))
@@ -12,8 +12,13 @@ class TwitchMessageParserServiceTest extends AnyWordSpec with Matchers {
     "A channel parser" should {
         val parser = new ChannelParser()
         val channelName = "MyTwitchChannelName"
-        val channel = parser.parseToChannel(tagsMap, channelName)
+        val channelTry = parser.parseToChannel(tagsMap, channelName)
 
+        "should parse a valid input" in {
+            channelTry.isSuccess shouldBe true
+        }
+
+        val channel = channelTry.get
         "return a channel object" in { 
             channel shouldBe a [Channel]
         }
@@ -21,15 +26,20 @@ class TwitchMessageParserServiceTest extends AnyWordSpec with Matchers {
             channel.name should be (channelName) // @ Tobi, gibt es hier eine best practise wegen String?
         }
         "should hold the roomId as it passed in the tags" in {
-            channel.roomId should be (tagsMap("room-id")) 
+            channel.roomId should be (tagsMap("room-id"))
         }
     }
 
     "A user parser" should {
         val parser = new UserParser()
         val userName = "RonnieRonaldo"
-        val user = parser.parseToUser(tagsMap, userName)
+        val userTry = parser.parseToUser(tagsMap, userName)
 
+        "should parse a valid input" in {
+            userTry.isSuccess shouldBe true
+        }
+
+        val user = userTry.get
         "return a user object" in { 
             user shouldBe a [User]
         }
@@ -47,21 +57,23 @@ class TwitchMessageParserServiceTest extends AnyWordSpec with Matchers {
     "A Message parser" should {
         val parser = new MessageParser()
         val msg = "kappa"
-        val message = parser.parseToMessage(tagsMap, msg)
+        val messageTry = parser.parseToMessage(tagsMap, msg)
 
+        "should parse a valid input" in {
+            messageTry.isSuccess shouldBe true
+        }
+
+        val message = messageTry.get
         "return a message object" in { 
             message shouldBe a [Message]
         }
         "should hold a message" in {
-            message.message should be (msg)
+            message.text should be (msg)
         }
         "should have a timestamp of type Long" in {
             message.timeStamp shouldBe a [Long]
         }
-        "should hold a sequence" in {
-            message.emotes shouldBe a [Seq[_]]
-        }
-        "should hold a sequence of emotes" in {
+        "should hold an array of emotes" in {
             message.emotes(0) shouldBe a [Emote]
         }
     } 
