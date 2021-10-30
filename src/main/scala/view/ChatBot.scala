@@ -11,7 +11,7 @@ object ChatBot {
     twitchConnection.start()
     val twitchInput = twitchConnection.getInput
     val twitchOutput = twitchConnection.getOutput
-    twitchInput.subscribe(new TwitchInputProvider(twitchOutput))
+    twitchInput.subscribe(new TwitchInputProvider(twitchOutput, twitchConnection))
     args.foreach(twitchConnection.join(_))
   }
 }

@@ -11,6 +11,8 @@ trait TwitchOutput {
 
 trait TwitchInput {
   def subscribe(subscriber: TwitchConsumer): Unit
+
+  def unSubscribe(subscriber: TwitchConsumer): Unit
 }
 
 trait TwitchConsumer {
@@ -77,6 +79,10 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
   override def subscribe(subscriber: TwitchConsumer): Unit = {
     subscribers = subscribers :+ subscriber
   }
+
+  override def unSubscribe(subscriber: TwitchConsumer): Unit =
+    subscribers = subscribers.filter(_ != subscriber) //TODO better way in scala to remove things from list?
+    println(subscribers)
 
   override def getOutput: TwitchOutput = this
 
