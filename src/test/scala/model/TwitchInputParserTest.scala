@@ -10,6 +10,10 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
   val tagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-10"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"),
     ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))
 
+  val tagsMapWithoutDisplayName = tagsMap.filter((k, v) => k != "display-name")
+  val tagsMapWithoutTimeStamp = tagsMap.filter((k, v) => k != "tmi-sent-ts")
+
+
   val roomIdPart = ""
   val rawMessage = "@badge-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;id=5512d983-c07d-444e-8f1b-4e5620a5461a;mod=0;room-id=735101247;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-id=737708557;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
   val rawMessageWithInvalidRoomId = "@badge-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;id=5512d983-c07d-444e-8f1b-4e5620a5461a;mod=0;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-id=737708557;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
@@ -57,7 +61,7 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
       channel shouldBe a[Channel]
     }
     "create an object with the desired name" in {
-      channel.name should be(channelName) // @ Tobi, gibt es hier eine best practise wegen String?
+      channel.name should be(channelName)
     }
     "hold the roomId as it passed in the tags" in {
       channel.roomId should be(tagsMap("room-id"))
@@ -71,6 +75,11 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
 
     "parse a valid input" in {
       userTry.isSuccess shouldBe true
+    }
+
+    "return a user name, when no display name is available" in {
+      val userTryWithoutDisplayName = parser.parseToUser(tagsMapWithoutDisplayName, userName)
+      userTryWithoutDisplayName.get.displayName should be(userName)
     }
 
     val user = userTry.get
@@ -97,6 +106,12 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
       messageTry.isSuccess shouldBe true
     }
 
+
+    "return a failiure, when there is no timestamp in map" in {
+      val messageTry = parser.parseToMessage(tagsMapWithoutTimeStamp, msg)
+      messageTry.isFailure shouldBe true
+    }
+
     val message = messageTry.get
     "return a message object" in {
       message shouldBe a[Message]
@@ -110,5 +125,10 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     "hold an array of emotes" in {
       message.emotes(0) shouldBe a[Emote]
     }
+
+    "fail when the emote array is wrong" in {
+      //TODO
+    }
+
   }
 }
