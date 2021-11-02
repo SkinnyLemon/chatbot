@@ -10,6 +10,9 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
   val tagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-10"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"),
     ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))
 
+  val faultyEmotesTagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"),
+    ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))
+
   val tagsMapWithoutDisplayName = tagsMap.filter((k, v) => k != "display-name")
   val tagsMapWithoutTimeStamp = tagsMap.filter((k, v) => k != "tmi-sent-ts")
 
@@ -19,6 +22,7 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
   val rawMessageWithInvalidRoomId = "@badge-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;id=5512d983-c07d-444e-8f1b-4e5620a5461a;mod=0;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-id=737708557;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
   val rawMessageWithNoIdInTags = "@badge-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;mod=0;room-id=735101247;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-id=737708557;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
   val rawMessageWithNoUserIdInTags = "@badge-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;id=5512d983-c07d-444e-8f1b-4e5620a5461a;mod=0;room-id=735101247;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
+  val rawMessageWithfaultyTagString = "@ba=dge=-info=;badges=;client-nonce=624f247e40cfba1d93ff8b213cd3433b;color=;display-name=omrisswk;emotes=;first-msg=0;flags=;id=5512d983-c07d-444e-8f1b-4e5620a5461a;mod=0;room-id=735101247;subscriber=0;tmi-sent-ts=1635690689871;turbo=0;user-type= :omrisswk!omrisswk@omrisswk.tmi.twitch.tv PRIVMSG #imperiabot :asd\nTwitchInput(Channel(735101247,imperiabot),User(omrisswk,omrisswk,737708557),Message([Lde.htwg.rs.chatbot.model.Emote;@15aee408,asd,1635690689871,5512d983-c07d-444e-8f1b-4e5620a5461a))"
 
 
   "A Twitch input parser" should {
@@ -42,6 +46,10 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
 
     "fail to parse when user parser fails" in {
       parser.parseToTwitchInput(rawMessageWithNoUserIdInTags).isFailure shouldBe true
+    }
+
+    "fail to parse when tag string is faulty" in {
+      parser.parseToTwitchInput(rawMessageWithfaultyTagString).isFailure shouldBe true
     }
 
   }
@@ -106,7 +114,6 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
       messageTry.isSuccess shouldBe true
     }
 
-
     "return a failiure, when there is no timestamp in map" in {
       val messageTry = parser.parseToMessage(tagsMapWithoutTimeStamp, msg)
       messageTry.isFailure shouldBe true
@@ -127,7 +134,9 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
     }
 
     "fail when the emote array is wrong" in {
-      //TODO
+      val messageTry = parser.parseToMessage(faultyEmotesTagsMap, msg)
+      messageTry.get.emotes.length <= 2
+
     }
 
   }
