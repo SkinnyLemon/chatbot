@@ -1,5 +1,4 @@
-package de.htwg.rs.chatbot
-package io
+package de.htwg.rs.chatbot.io
 
 import java.io.{BufferedReader, BufferedWriter, InputStreamReader, OutputStreamWriter}
 import java.net.Socket
@@ -9,7 +8,7 @@ trait TwitchOutput {
   def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit
 }
 
-trait TwitchInput {
+trait RawInputProvider {
   def subscribe(subscriber: TwitchConsumer): Unit
 
   def unSubscribe(subscriber: TwitchConsumer): Unit
@@ -24,7 +23,7 @@ trait TwitchConnection {
 
   def getOutput: TwitchOutput
 
-  def getInput: TwitchInput
+  def getInput: RawInputProvider
 
   def start(): Unit // TODO change to start for seperate Thread
 }
@@ -33,7 +32,7 @@ object TwitchConnection {
   def establishConnection(accountName: String, authToken: String): TwitchConnection = new TwitchConnectionImpl(accountName, authToken)
 }
 
-private class TwitchConnectionImpl(accountName: String, authToken: String) extends Thread with TwitchConnection with TwitchOutput with TwitchInput {
+private class TwitchConnectionImpl(accountName: String, authToken: String) extends Thread with TwitchConnection with TwitchOutput with RawInputProvider {
   private val socket = new Socket("irc.twitch.tv", 6667)
   private val input = new BufferedReader(new InputStreamReader(socket.getInputStream))
   private val output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream))
@@ -86,5 +85,5 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
 
   override def getOutput: TwitchOutput = this
 
-  override def getInput: TwitchInput = this
+  override def getInput: RawInputProvider = this
 }
