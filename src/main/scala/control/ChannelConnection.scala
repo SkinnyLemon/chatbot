@@ -14,8 +14,8 @@ class ChannelGateway(output: TwitchOutput, channel: String) extends ChannelConne
   private val inputHandler = new TwitchInputHandler(this)
 
   override def onMessage(input: TwitchInput): Unit =
-      inputHandler.onMessage(input)
-      subscribers.foreach(_.onMessage(input))
+    inputHandler.onMessage(input)
+    subscribers.foreach(_.onMessage(input))
 
   override def send(message: String, tags: Map[String, String] = Map.empty): Unit = output.sendMessage(channel, message, tags)
 }
