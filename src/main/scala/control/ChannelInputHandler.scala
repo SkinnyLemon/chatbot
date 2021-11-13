@@ -1,7 +1,7 @@
 package de.htwg.rs.chatbot
 package control
 
-import game.CoinFlipGame
+import game.CoinFlipGame2
 import model.TwitchInput
 
 import de.htwg.rs.chatbot.io.TwitchOutput

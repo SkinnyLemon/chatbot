@@ -1,7 +1,8 @@
 package de.htwg.rs.chatbot
 package view
 
-import control.TwitchInputProvider
+import control.{ChannelOutput, CommandRegistryRegisty, TwitchInputProvider, `when message`}
+import game.CoinFlipGameHandler
 import io.{Config, TwitchConnection}
 
 object ChatBot {
@@ -11,7 +12,20 @@ object ChatBot {
     twitchConnection.start()
     val twitchInput = twitchConnection.getInput
     val twitchOutput = twitchConnection.getOutput
-    twitchInput.subscribe(new TwitchInputProvider(twitchOutput, twitchConnection))
+
+    val heyCommand = `when message` `starts with` "hey" `respond with` "TheIlluminati"
+    val helpCommand = `when message` `contains` "help" `respond with` "Commands: hello, help, play"
+    val starWars = `when message` `ends with` "hello there" `respond with` "General Kenobi BrainSlug"
+    val helloCommand = `when message` `is` "hello" `respond with` "Hello there! HeyGuys HeyGuys"
+
+    val registries = new CommandRegistryRegisty(twitchOutput)
+    registries.addCommand("imperiabot", heyCommand)
+    registries.addCommand("imperiabot", helpCommand)
+    registries.addCommand("imperiabot", starWars)
+    registries.addCommand("imperiabot", helloCommand)
+    registries.addCommand("imperiabot", new CoinFlipGameHandler())
+
+    twitchInput.subscribe(new TwitchInputProvider(twitchOutput, twitchConnection, registries))
     args.foreach(twitchConnection.join(_))
   }
 }
