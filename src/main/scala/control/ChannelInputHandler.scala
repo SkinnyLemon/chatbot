@@ -6,7 +6,7 @@ import model.TwitchInput
 
 import de.htwg.rs.chatbot.io.TwitchOutput
 
-class TwitchInputHandler(output: ChannelConnection) extends Subscriber[TwitchInput] {
+class ChannelInputHandler(output: ChannelOutput) extends Subscriber[TwitchInput] {
   val commandPrefix = '!'
 
   override def onMessage(input: TwitchInput): Unit =
