@@ -11,12 +11,13 @@ case class CoinFlipGameHandler(instances: List[CoinFlipGame] = List.empty) exten
     case _ =>
       var response: Option[String] = None
       val newInstances = instances.map(_.handle(input))
-          .map{ case (game, gameResponse) => {
-            gameResponse.foreach(r => response = Some(r))
-            game
-          }}
-          .filter(_.isDefined)
-          .map(_.get)
+        .map { case (game, gameResponse) => {
+          gameResponse.foreach(r => response = Some(r))
+          game
+        }
+        }
+        .filter(_.isDefined)
+        .map(_.get)
       (copy(newInstances), response)
   }
 
