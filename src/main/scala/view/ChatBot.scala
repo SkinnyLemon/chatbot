@@ -32,7 +32,6 @@ object ChatBot {
     registries.addCommand("imperiabot", helpCommand)
     registries.addCommand("imperiabot", helloCommand)
     registries.addCommand("imperiabot", new CoinFlipGameHandler())
-    registries.addCommand("imperiabot", new CreateCommandHandler())
     registries.addCommand("imperiabot", starWars)
   }
 }
