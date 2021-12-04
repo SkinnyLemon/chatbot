@@ -1,7 +1,6 @@
 package de.htwg.rs.chatbot
 package control
 
-import game.*
 import io.{TwitchConnection, TwitchConsumer, TwitchOutput}
 import model.{TwitchInput, TwitchInputParser}
 

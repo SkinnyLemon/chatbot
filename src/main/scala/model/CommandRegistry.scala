@@ -1,12 +1,10 @@
 package de.htwg.rs.chatbot
 package model
 
-import game.CoinFlipGameHandler
-
-import de.htwg.rs.chatbot.control.{ChannelOutput, CommandParser}
+import control.{ChannelOutput, CommandParser}
 
 case class CommandRegistry(output: ChannelOutput, commands: List[Command] = List.empty) {
-  private val parser = CommandParser()
+  private val parser = new CommandParser()
 
   def addCommand(command: Command): CommandRegistry = copy(
     commands = commands :+ command)

@@ -60,7 +60,7 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
 
   override def join(channel: String): Unit = send(s"JOIN #${channel.toLowerCase}")
 
-  override def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit =
+  override def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit = {
     var tagString = tags
       .map { case (key, value) => s"$key=$value" }
       .mkString(";")
@@ -68,6 +68,7 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
       if (tags.isEmpty) ""
       else s"@$tagString"
     send(s"$tagString PRIVMSG #$channel :$message")
+  }
 
   private def send(text: String): Unit = {
     println(text)

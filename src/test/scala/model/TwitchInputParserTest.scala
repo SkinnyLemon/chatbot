@@ -1,7 +1,7 @@
 package de.htwg.rs.chatbot
 package model
 
-import org.scalatest.*
+import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -13,8 +13,8 @@ class TwitchInputParserTest extends AnyWordSpec with Matchers {
   val faultyEmotesTagsMap = Map(("room-id", "1337"), ("display-name", "Ronni"), ("emotes", "25:0-4,12-16/1902:6-"), ("tmi-sent-ts", "1507246572675"), ("user-id", "1234"), ("color", "#0D4200"),
     ("badges", "#global_mod/1,turbo/1"), ("id", "b34ccfc7-4977-403a-8a94-33c6bac34fb8"), ("badge-info", ""), ("mod", "0"), ("subscriber", "0"), ("turbo", "1"), ("user-type", "global_mod"))
 
-  val tagsMapWithoutDisplayName = tagsMap.filter((k, v) => k != "display-name")
-  val tagsMapWithoutTimeStamp = tagsMap.filter((k, v) => k != "tmi-sent-ts")
+  val tagsMapWithoutDisplayName = tagsMap.filter{ case (k, v) => k != "display-name"}
+  val tagsMapWithoutTimeStamp = tagsMap.filter{ case (k, v) => k != "tmi-sent-ts"}
 
 
   val roomIdPart = ""

@@ -5,8 +5,7 @@ import scala.util.{Failure, Success, Try}
 
 class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
                         userParser: UserParser = new UserParser(),
-                        messageParser: MessageParser = new MessageParser()):
-
+                        messageParser: MessageParser = new MessageParser()) {
   def parseToTwitchInput(toParse: String): Try[TwitchInput] = {
     val split = toParse.split(" ")
     if (split.length < 5)
@@ -46,16 +45,18 @@ class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
     .filter(_.isDefined)
     .map(_.get)
     .toMap
+}
 
-class ChannelParser:
+class ChannelParser {
   def parseToChannel(tags: Map[String, String], channelName: String): Try[Channel] =
     Try(tags("room-id")) match {
       case Success(roomId) => Success(Channel(roomId, channelName))
       case _ => Failure(new IllegalArgumentException("No room-id in tags"))
     }
+}
 
-class UserParser:
-  def parseToUser(tags: Map[String, String], userName: String): Try[User] =
+class UserParser {
+  def parseToUser(tags: Map[String, String], userName: String): Try[User] = {
     val displayName = Try(tags("display-name")) match {
       case Success(s) => s
       case _ => userName
@@ -64,9 +65,11 @@ class UserParser:
       case Success(userId) => Success(User(userName, displayName, userId))
       case _ => Failure(new IllegalArgumentException("No user-id in tags"))
     }
+  }
+}
 
-class MessageParser:
-  def parseToMessage(tags: Map[String, String], message: String): Try[Message] =
+class MessageParser {
+  def parseToMessage(tags: Map[String, String], message: String): Try[Message] = {
     val emotes = Try(tags("emotes")) match {
       case Success(rawEmotes) => rawEmotes.split("/").flatMap(parseToEmote)
       case _ => Array.empty[Emote]
@@ -79,8 +82,9 @@ class MessageParser:
       case Success(timeStamp) => Success(Message(emotes, message, timeStamp.toLong, id))
       case _ => Failure(new IllegalArgumentException("No tmi-sent-ts in tags"))
     }
+  }
 
-  private def parseToEmote(toParse: String): Array[Emote] =
+  private def parseToEmote(toParse: String): Array[Emote] = {
     val (emoteId: String, indicesRaw: String) = toParse.span(_ != ':')
     indicesRaw.drop(1).split(",")
       .map(_.split("-"))
@@ -93,4 +97,5 @@ class MessageParser:
           false
       }
       .map(_.get)
-  
+  }
+}

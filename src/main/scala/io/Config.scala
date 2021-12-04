@@ -2,9 +2,7 @@ package de.htwg.rs.chatbot
 package io
 
 import java.nio.file.{Files, Paths}
-import java.util.Scanner
-import java.util.stream.Collector
-import scala.collection.JavaConverters.*
+import scala.jdk.CollectionConverters.IteratorHasAsScala
 
 object Config {
   private val botFile = Paths.get("config/bots")
