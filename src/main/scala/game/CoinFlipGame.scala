@@ -1,12 +1,9 @@
 package de.htwg.rs.chatbot
 package game
 
-import control.ChannelOutput
-import io.{TwitchConnection, TwitchConsumer, TwitchOutput}
-import model.{Command, TwitchInput, TwitchInputParser, User}
+import model.{TwitchInput, User}
 
-import scala.collection.MapOps
-import scala.util.{Failure, Random, Success}
+import scala.util.Random
 
 case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
   def handle(input: TwitchInput): (Option[CoinFlipGame], Option[String]) =

@@ -2,7 +2,7 @@ package de.htwg.rs.chatbot.io
 
 import java.io.{BufferedReader, BufferedWriter, InputStreamReader, OutputStreamWriter}
 import java.net.Socket
-import scala.util.{Failure, Try}
+import scala.util.Try
 
 trait TwitchOutput {
   def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit
@@ -82,7 +82,8 @@ private class TwitchConnectionImpl(accountName: String, authToken: String) exten
 
   override def unSubscribe(subscriber: TwitchConsumer): Unit =
     subscribers = subscribers.filter(_ != subscriber) //TODO better way in scala to remove things from list?
-    println(subscribers)
+
+  println(subscribers)
 
   override def getOutput: TwitchOutput = this
 

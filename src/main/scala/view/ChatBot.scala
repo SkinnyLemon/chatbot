@@ -1,10 +1,9 @@
 package de.htwg.rs.chatbot
 package view
 
-import control.{ChannelOutput, CommandRegistryRegisty, TwitchInputProvider, `when message`}
+import control.{CommandRegistryRegisty, TwitchInputProvider, `when message`}
 import game.CoinFlipGameHandler
 import io.{Config, TwitchConnection}
-import de.htwg.rs.chatbot.control._
 
 object ChatBot {
   def main(args: Array[String]): Unit = {

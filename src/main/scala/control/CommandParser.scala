@@ -3,8 +3,6 @@ package control
 
 import model.{Command, TwitchInput}
 
-import de.htwg.rs.chatbot.control.MyParser
-
 class CommandParser() {
   val commandPrefix = "!create"
 

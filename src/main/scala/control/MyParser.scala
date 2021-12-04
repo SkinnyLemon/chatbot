@@ -1,9 +1,8 @@
 package de.htwg.rs.chatbot
 package control
 
-import de.htwg.rs.chatbot.model.Command
+import model.Command
 
-import scala.util.Success
 import scala.util.parsing.combinator.RegexParsers
 
 class RuleParser extends RegexParsers {

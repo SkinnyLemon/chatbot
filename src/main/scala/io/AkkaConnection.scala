@@ -1,12 +1,10 @@
 package de.htwg.rs.chatbot
 package io
 
-import akka.NotUsed
 import akka.actor.ActorSystem
+import akka.stream.scaladsl.{Sink, Source}
 import akka.stream.{BoundedSourceQueue, Materializer}
-import akka.stream.scaladsl.{MergeHub, RunnableGraph, Sink, Source}
 
-import java.util.concurrent.CountDownLatch
 import scala.concurrent.ExecutionContextExecutor
 
 class AkkaConnection(bot: BotConfig, sink: Sink[String, Any]) extends TwitchConsumer {
@@ -19,7 +17,6 @@ class AkkaConnection(bot: BotConfig, sink: Sink[String, Any]) extends TwitchCons
       .run()
   val connection: TwitchConnection = TwitchConnection.establishConnection(bot.name, bot.auth)
   connection.getInput.subscribe(this)
-
 
   def start(): Unit = connection.start()
 

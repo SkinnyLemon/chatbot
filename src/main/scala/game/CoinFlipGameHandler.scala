@@ -3,8 +3,6 @@ package game
 
 import model.{Command, TwitchInput}
 
-import de.htwg.rs.chatbot.control.ChannelOutput
-
 case class CoinFlipGameHandler(instances: List[CoinFlipGame] = List.empty) extends Command {
   override def handle(input: TwitchInput): (Command, Option[String]) = input.message.text match {
     case "p" | "play" => startGame(input)
