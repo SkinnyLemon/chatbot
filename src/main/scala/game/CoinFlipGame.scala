@@ -17,13 +17,13 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
 
   private def processInput(input: TwitchInput): (Option[CoinFlipGame], Option[String]) =
     input.message.text.toLowerCase() match
-      case "h" | "head" => processGame(input, "head")
-      case "t" | "tails" => processGame(input, "tails")
-      case "s" | "score" => sendResult(input)
-      case "e" | "exit" => endGame(input)
+      case "h" | "head" => processGame("head")
+      case "t" | "tails" => processGame("tails")
+      case "s" | "score" => sendResult()
+      case "e" | "exit" => endGame()
       case _ => (Some(this), None)
 
-  private def processGame(input: TwitchInput, choice: String): (Option[CoinFlipGame], Option[String]) =
+  private def processGame(choice: String): (Option[CoinFlipGame], Option[String]) =
     //reply(input, s"Your pick: ${choice}.")
     //reply(input, "Flipping a coin! Good luck!")
     val coinFlipResult = coinFlip()
@@ -46,11 +46,11 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
     else
       copy(losses = losses + 1)
 
-  private def sendResult(input: TwitchInput): (Option[CoinFlipGame], Option[String]) =
+  private def sendResult(): (Option[CoinFlipGame], Option[String]) =
     (Some(this), Some(s"You won ${wins} games. You lost ${losses} games."))
 
   private def coinFlip(): String = if (Random.nextBoolean()) "Head" else "Tails"
 
-  private def endGame(input: TwitchInput): (Option[CoinFlipGame], Option[String]) =
+  private def endGame(): (Option[CoinFlipGame], Option[String]) =
     (None, Some("ok baiii"))
 }
