@@ -16,7 +16,8 @@ case class CommandRegistry(output: ChannelOutput, commands: List[Command] = List
 
   def handleMessage(message: TwitchInput): CommandRegistry = {
     var newCommands = commands.map(command => {
-      val (newCommand: Command, response: Option[String]) = command.handle(message)
+      val (newCommand: Command, response: Option[String]) =
+      command.handle(message)
       response.foreach(output.send(_))
       newCommand
     })
@@ -26,6 +27,7 @@ case class CommandRegistry(output: ChannelOutput, commands: List[Command] = List
         newCommands = newCommands :+ newCommand
       case (None, Some(response)) => output.send(response)
       case (None, None) =>
+        //TODO remove. Not testable
       case _ => new IllegalStateException().printStackTrace()
     }
     copy(commands = newCommands)

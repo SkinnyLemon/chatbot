@@ -10,4 +10,5 @@ libraryDependencies ++= Seq(
 "org.scalactic" %% "scalactic" % "3.2.10",
 "org.scalatest" %% "scalatest" % "3.2.10" % "test",
 "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
+"org.scalatestplus" %% "mockito-3-4" % "3.2.10.0" % "test"
 )
