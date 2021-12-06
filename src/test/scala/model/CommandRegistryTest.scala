@@ -1,12 +1,13 @@
 package de.htwg.rs.chatbot
 package model
 
-import de.htwg.rs.chatbot.control.ChannelOutput
-import de.htwg.rs.chatbot.io.TwitchOutput
+import control.{ChannelOutput, ChannelOutputTest}
+import io.TwitchOutput
+
 import org.mockito.Mockito.when
+import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import org.scalatest.funsuite.AnyFunSuite
 import org.scalatestplus.mockito.MockitoSugar.mock
 
 
