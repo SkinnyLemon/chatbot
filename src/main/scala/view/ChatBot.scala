@@ -6,6 +6,7 @@ import game.CoinFlipGameHandler
 import io.{AkkaAdapter, Config, TwitchConnection}
 
 import akka.stream.scaladsl.{Flow, Sink}
+import de.htwg.rs.chatbot.actor.RopePullingGame
 import de.htwg.rs.chatbot.model.TwitchInputParser
 
 object ChatBot {
@@ -26,6 +27,7 @@ object ChatBot {
     registry.addCommand("imperiabot", helpCommand)
     registry.addCommand("imperiabot", helloCommand)
     registry.addCommand("imperiabot", new CoinFlipGameHandler())
+    registry.addCommand("imperiabot", new RopePullingGame())
     registry.addCommand("imperiabot", starWars)
 
     val processingSink = Flow[String]
