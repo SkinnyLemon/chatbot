@@ -2,24 +2,13 @@ package de.htwg.rs.chatbot
 package actor
 
 object Messages {
-  case class Deposit(amount: Double) {
-    require(amount > 0)
-  }
 
-  case class Withdraw(amount: Double) {
-    require(amount > 0)
-  }
+  case class PullLeft()
 
-  case class CreateBankAccount(name: String)
+  case class PullRight()
 
-  case class Transaction(amount: Int, from: String, to: String)
+  case class GetScore()
 
-  case object GetBalance
-
-  case object PrintBalance
-
-  case object Done
-
-  case object Failed
+  case class GetWinner()
 
 }
