@@ -17,3 +17,5 @@ libraryDependencies += ("com.typesafe.akka" %% "akka-stream" % AkkaVersion)
     .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
 
 libraryDependencies += "org.apache.kafka" %% "kafka" % "3.0.0"
+
+libraryDependencies += "com.typesafe.akka" %% "akka-actor" % AkkaVersion

@@ -22,14 +22,9 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
     }
 
   private def processGame(input: TwitchInput, choice: String): (Option[CoinFlipGame], Option[String]) = {
-    //reply(input, s"Your pick: ${choice}.")
-    //reply(input, "Flipping a coin! Good luck!")
     val coinFlipResult = coinFlip()
-    //reply(input, coinFlipResult)
     val isWin = coinFlipResult.toLowerCase == choice
     val matchResultMessage = generateMatchResultMessage(isWin)
-    //reply(input, matchResultMessage)
-    //reply(input, "Play again? Just continue. To stop playing type (e)xit")
     (Some(nextRound(isWin)), Some(matchResultMessage))
   }
 
