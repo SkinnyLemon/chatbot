@@ -1,6 +1,8 @@
 package de.htwg.rs.chatbot
 package model
 
+import io.KafkaProducer
+
 import scala.util.{Failure, Success, Try}
 
 class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
@@ -29,7 +31,9 @@ class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
       case Success(user) => user
       case Failure(e) => return Failure(e)
     }
-    Success(TwitchInput(channel, user, message))
+    val result = TwitchInput(channel, user, message)
+    KafkaProducer.send(result.toString)
+    Success(result)
   }
 
   private def parseTags(toParse: String): Map[String, String] = toParse

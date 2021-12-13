@@ -1,12 +1,12 @@
 package de.htwg.rs.chatbot
 package view
 
-import control.{CommandRegistryRegisty, TwitchInputProvider, `when message`}
+import control.{CommandRegistryRegisty, `when message`}
 import game.CoinFlipGameHandler
-import io.{AkkaAdapter, Config, TwitchConnection}
+import io.{AkkaAdapter, Config}
+import model.TwitchInputParser
 
 import akka.stream.scaladsl.{Flow, Sink}
-import de.htwg.rs.chatbot.model.TwitchInputParser
 
 object ChatBot {
   def main(args: Array[String]): Unit = {
