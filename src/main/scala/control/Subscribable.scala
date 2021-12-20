@@ -7,7 +7,7 @@ trait Subscriber[T] {
   def onMessage(message: T): Unit
 }
 
-abstract class Subscribable[T] {
+trait Subscribable[T] {
   protected val subscribers = ListBuffer.empty[Subscriber[T]]
   
   def subscribe(subscriber: Subscriber[T]): Unit = subscribers += subscriber
