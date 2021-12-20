@@ -32,7 +32,7 @@ class TwitchInputParser(channelParser: ChannelParser = new ChannelParser(),
       case Failure(e) => return Failure(e)
     }
     val result = TwitchInput(channel, user, message)
-    //KafkaProducer.send(result.toString)
+    KafkaProducer.send(result.toString)
     Success(result)
   }
 
