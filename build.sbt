@@ -18,3 +18,8 @@ libraryDependencies += ("com.typesafe.akka" %% "akka-stream" % AkkaVersion)
 
 libraryDependencies += "org.apache.kafka" %% "kafka" % "3.0.0"
 libraryDependencies += "com.typesafe.akka" %% "akka-actor" % AkkaVersion
+
+libraryDependencies += ("org.apache.spark" % "spark-core_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
+libraryDependencies += ("org.apache.spark" % "spark-streaming_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
+libraryDependencies += ("org.apache.spark" % "spark-streaming-kafka-0-10_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
+libraryDependencies += ("org.apache.spark" % "spark-sql_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
