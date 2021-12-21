@@ -11,9 +11,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar.mock
 
-
 class CommandDslTest extends AnyWordSpec with Matchers {
-
   val fixObject = "fixObject"
   val response = "response"
 
@@ -38,5 +36,4 @@ class CommandDslTest extends AnyWordSpec with Matchers {
       defined.trigger shouldBe prefixTrigger
     }
   }
-
 }

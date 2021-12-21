@@ -3,13 +3,12 @@ package io
 
 import org.apache.kafka.clients.consumer.KafkaConsumer
 
+import java.time.Duration
 import java.util
 import java.util.Properties
-import java.time.Duration
-import scala.collection.JavaConverters._
+import scala.collection.JavaConverters.*
 
-object TestKafkaConsumer extends App {
-
+object TestKafkaConsumer extends App :
   val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
   props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
@@ -18,13 +17,8 @@ object TestKafkaConsumer extends App {
 
   val consumer = new KafkaConsumer[String, String](props)
   val TOPIC = "twitch"
-
   consumer.subscribe(util.Collections.singletonList(TOPIC))
-
-  while (true) {
+  while (true)
     val records = consumer.poll(Duration.ofMillis(100))
-    for (record <- records.asScala) {
+    for (record <- records.asScala)
       println(record.value())
-    }
-  }
-}

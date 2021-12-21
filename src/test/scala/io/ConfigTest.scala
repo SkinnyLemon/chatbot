@@ -13,14 +13,9 @@ import org.scalatestplus.mockito.MockitoSugar.mock
 
 
 class ConfigTest extends AnyWordSpec with Matchers {
-
   "A Config" should {
-
     "hold bots" in {
       Config.bots should not be empty
     }
-
   }
-
-
 }

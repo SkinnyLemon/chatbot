@@ -9,15 +9,15 @@ object MLCore {
     Running(cardPile, List(firstCard))
 }
 
-sealed abstract class MLCore(discardPile: List[Int]) {
+sealed abstract class MLCore(discardPile: List[Int]):
   def current: Int = discardPile.last
-}
 
-case class Running(cards: Cards, discardPile: List[Int], streak: Int = 0) extends MLCore(discardPile) {
+case class Running(cards: Cards, discardPile: List[Int], streak: Int = 0) extends MLCore(discardPile) :
   def betMore = bet(_ > current)
+
   def betLess = bet(_ < current)
 
-  private def bet(betWon: Int=> Boolean): MLCore =
+  private def bet(betWon: Int => Boolean): MLCore =
     val (pulled, newPile) = cards.drawCard()
     if betWon(pulled) then
       if newPile.isEmpty then
@@ -26,12 +26,12 @@ case class Running(cards: Cards, discardPile: List[Int], streak: Int = 0) extend
         Running(newPile, discardPile :+ pulled, streak + 1)
     else
       Loss(discardPile :+ pulled, streak)
-}
 
 case class Win(previous: List[Int], streak: Int) extends MLCore(previous)
+
 case class Loss(previous: List[Int], streak: Int) extends MLCore(previous)
 
-private case class Cards (private val pile: IndexedSeq[Int]) {
+private case class Cards(private val pile: IndexedSeq[Int]):
   def isEmpty: Boolean = pile.isEmpty
 
   def drawCard(): (Int, Cards) =
@@ -40,7 +40,3 @@ private case class Cards (private val pile: IndexedSeq[Int]) {
     val cardValue = pile(cardIndex)
     val newPile = pile.filter(_ != cardValue)
     (cardValue, copy(newPile))
-}
-
-
-

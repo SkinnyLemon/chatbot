@@ -11,12 +11,9 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.mockito.MockitoSugar.mock
 
-
 class ChannelOutputTest extends AnyWordSpec with Matchers {
-
   val channelName = "imperiabot"
   val message = "msg"
-
   val outputMock = mock[TwitchOutput]
   val channelOutput = new ChannelOutput(outputMock, channelName)
 
@@ -25,8 +22,5 @@ class ChannelOutputTest extends AnyWordSpec with Matchers {
       channelOutput.send(message)
       verify(outputMock, times(1)).sendMessage(channelName, message, Map.empty)
     }
-
   }
-
-
 }

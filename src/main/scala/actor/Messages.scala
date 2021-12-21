@@ -1,8 +1,7 @@
 package de.htwg.rs.chatbot
 package actor
 
-object Messages {
-
+object Messages:
   case class PullLeft()
 
   case class PullRight()
@@ -10,5 +9,3 @@ object Messages {
   case class GetScore()
 
   case class GetWinner()
-
-}

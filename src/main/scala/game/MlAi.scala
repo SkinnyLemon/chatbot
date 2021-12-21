@@ -3,10 +3,9 @@ package game
 
 import scala.util.Random
 
-object MlAi {
+object MlAi:
   def play(game: Running): MLCore =
     if (Random.nextBoolean())
       game.betLess
     else
       game.betMore
-}

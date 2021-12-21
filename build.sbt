@@ -2,12 +2,12 @@ name := "chatbot"
 
 version := "0.1"
 
-scalaVersion := "3.1.0"
+scalaVersion := "3.1.1-RC1"
 
 idePackagePrefix := Some("de.htwg.rs.chatbot")
 
 val ScalaTestVersion = "3.2.10"
-val AkkaVersion = "2.6.17"
+val AkkaVersion = "2.6.18"
 val DeepLearning4jVersion = "1.0.0-M1.1"
 
 libraryDependencies ++= Seq(
@@ -21,7 +21,8 @@ libraryDependencies ++= Seq(
 
   ("com.typesafe.akka" %% "akka-stream" % AkkaVersion)
     .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13"),
-  "com.typesafe.akka" %% "akka-actor" % AkkaVersion,
+  ("com.typesafe.akka" %% "akka-actor" % AkkaVersion)
+    .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13"),
 
   "org.deeplearning4j" % "deeplearning4j-core" % DeepLearning4jVersion,
   "org.nd4j" % "nd4j-api" % DeepLearning4jVersion,

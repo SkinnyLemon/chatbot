@@ -5,43 +5,34 @@ import de.htwg.rs.chatbot.model.Iris
 import org.datavec.api.records.reader.RecordReader
 import org.datavec.api.records.reader.impl.csv.CSVRecordReader
 import org.datavec.api.split.FileSplit
-import org.datavec.api.transform.transform.normalize.Normalize
 import org.datavec.api.transform.TransformProcess
+import org.datavec.api.transform.schema.Schema
+import org.datavec.api.transform.transform.normalize.Normalize
 import org.datavec.api.util.ndarray.RecordConverter
 import org.deeplearning4j.datasets.datavec.RecordReaderDataSetIterator
-import org.deeplearning4j.nn.conf.MultiLayerConfiguration
-import org.deeplearning4j.nn.conf.NeuralNetConfiguration
-import org.deeplearning4j.nn.conf.layers.DenseLayer
-import org.deeplearning4j.nn.conf.layers.OutputLayer
+import org.deeplearning4j.nn.conf.{MultiLayerConfiguration, NeuralNetConfiguration}
+import org.deeplearning4j.nn.conf.layers.{DenseLayer, OutputLayer}
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.weights.WeightInit
 import org.deeplearning4j.optimize.listeners.ScoreIterationListener
 import org.nd4j.evaluation.classification.Evaluation
 import org.nd4j.linalg.activations.Activation
 import org.nd4j.linalg.api.ndarray.INDArray
-import org.nd4j.linalg.dataset.DataSet
-import org.nd4j.linalg.dataset.SplitTestAndTrain
+import org.nd4j.linalg.dataset.{DataSet, SplitTestAndTrain}
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator
-import org.nd4j.linalg.dataset.api.preprocessor.DataNormalization
-import org.nd4j.linalg.dataset.api.preprocessor.NormalizerStandardize
+import org.nd4j.linalg.dataset.api.preprocessor.{DataNormalization, NormalizerStandardize}
 import org.nd4j.linalg.learning.config.Sgd
 import org.nd4j.linalg.lossfunctions.LossFunctions
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-import org.datavec.api.transform.schema.Schema
+import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.util
-import scala.collection.mutable.HashMap
 import scala.collection.mutable
+import scala.collection.mutable.HashMap
 
-
-case class IrisClassifier() extends Classifier[Iris] with Evaluator[Iris] {
-
-
+case class IrisClassifier() extends Classifier[Iris] with Evaluator[Iris] :
   val model: MultiLayerNetwork = defineNetwork()
-  val normalizer = new NormalizerStandardize() // Neural nets all about numbers. Lets normalize our data
-
+  val normalizer = new NormalizerStandardize()
 
   def defineNetwork(): MultiLayerNetwork =
     val numInputs = 4
@@ -75,34 +66,26 @@ case class IrisClassifier() extends Classifier[Iris] with Evaluator[Iris] {
     val labelIndex = 4
     val numClasses = 3
     val batchSize = 150
-
     val iterator: DataSetIterator = new RecordReaderDataSetIterator(recordReader, batchSize, labelIndex, numClasses);
     val allData: DataSet = iterator.next();
     allData.shuffle();
     val testAndTrain: SplitTestAndTrain = allData.splitTestAndTrain(0.65); //Use 65% of data for training
-
     val trainingData: DataSet = testAndTrain.getTrain();
     val testData: DataSet = testAndTrain.getTest();
 
     normalizer.fit(trainingData); //Collect the statistics (mean/stdev) from the training data. This does not modify the input data
     normalizer.transform(trainingData); //Apply normalization to the training data
     normalizer.transform(testData); //Apply normalization to the test data. This is using statistics calculated from the *training* set
-
     model.init();
     model.setListeners(new ScoreIterationListener(100)) //record score once every 100 iterations
 
-    for (i <- 0 until 1000) {
+    for (i <- 0 until 1000)
       model.fit(trainingData)
-    }
-
     val output = model.output(testData.getFeatures)
-
     val eval = new Evaluation(3) //evaluate the model on the test set
     eval.eval(testData.getLabels, output)
     println(eval.stats())
-
     val labels = testData.getLabels
-
     this
 
 
@@ -118,12 +101,8 @@ case class IrisClassifier() extends Classifier[Iris] with Evaluator[Iris] {
 
 
   def getIrisClass(classAsNumber: Int): String =
-    classAsNumber match {
+    classAsNumber match
       case 0 => "Iris Setosa"
       case 1 => "Iris Versicolor"
       case 2 => "Iris Virginica"
       case _ => "not valid"
-    }
-
-
-}

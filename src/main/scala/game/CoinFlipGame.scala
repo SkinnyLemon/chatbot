@@ -5,7 +5,7 @@ import model.{TwitchInput, User}
 
 import scala.util.Random
 
-case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
+case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0):
   def handle(input: TwitchInput): (Option[CoinFlipGame], Option[String]) =
     if (input.user.userId == player.userId)
       processInput(input)
@@ -38,11 +38,10 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
     else
       copy(losses = losses + 1)
 
+  private def coinFlip(): String = if (Random.nextBoolean()) "Head" else "Tails"
+
   private def sendResult(): (Option[CoinFlipGame], Option[String]) =
     (Some(this), Some(s"You won ${wins} games. You lost ${losses} games."))
 
-  private def coinFlip(): String = if (Random.nextBoolean()) "Head" else "Tails"
-
   private def endGame(): (Option[CoinFlipGame], Option[String]) =
     (None, Some("Ok. See you arround!"))
-}
