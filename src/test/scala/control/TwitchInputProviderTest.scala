@@ -4,6 +4,7 @@ package control
 import io.{TwitchConnection, TwitchOutput}
 import model.{Channel, Command, Message, TwitchInput, TwitchInputParser}
 
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -37,7 +38,7 @@ class TwitchInputProviderTest extends AnyWordSpec with Matchers {
     "carry on to hanlde the message" in {
       provider.onMessage(rawMessage)
 
-      verify(registryMock, times(1))
+      verify(registryMock, times(1)).handleMessage(any[TwitchInput])
     }
 
   }
