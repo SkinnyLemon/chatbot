@@ -10,7 +10,9 @@ case class CoinFlipGameHandler(instances: List[CoinFlipGame] = List.empty) exten
     case "p" | "play" => startGame(input)
     case _ =>
       var response: Option[String] = None
-      val newInstances = instances.map(_.handle(input))
+      val newInstances = instances.map(
+        _.handle(input)
+      )
         .map { case (game, gameResponse) => {
           gameResponse.foreach(r => response = Some(r))
           game
