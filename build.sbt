@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   "org.scalactic" %% "scalactic" % "3.2.10",
   "org.scalatest" %% "scalatest" % "3.2.10" % "test",
   "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
+  "org.scala-lang.modules" %% "scala-xml" % "2.0.1",
 )
 
 val AkkaVersion = "2.6.18"
