@@ -3,7 +3,7 @@ package game
 
 import model.{Command, TwitchInput}
 
-case class MoreLessGameHandler(instances: List[MoreLessGame] = List.empty) extends Command {
+case class MlGameHandler(instances: List[MlGame] = List.empty) extends Command {
 
   override def handle(input: TwitchInput): (Command, Option[String]) = input.message.text match {
     case "p2" | "play2" => startGame(input)
@@ -20,8 +20,7 @@ case class MoreLessGameHandler(instances: List[MoreLessGame] = List.empty) exten
   }
 
   def startGame(input: TwitchInput): (Command, Option[String]) =
-    val newGame = MoreLessGame(input.user)
-    (copy(instances = instances :+ newGame), Some(s"started a new higher-lower game for player ${input.user.displayName}! Type (s)tart, to get started!"))
-
-
+    val game = MLCore.startGame(6, 12)
+    val newGame = MlGame(input.user, game)
+    (copy(instances = instances :+ newGame), Some(s"started a new higher-lower game for player ${input.user.displayName}! First card: ${game.current}!"))
 }
