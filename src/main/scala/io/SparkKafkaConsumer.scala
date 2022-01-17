@@ -34,6 +34,7 @@ object SparkKafkaConsumer extends App {
   val records = stream.map(record => record.value().split(".*Emote.*?,")(1).split(",.*,")(0).split(" "))
 
   import sparkConfig.implicits._
+  import scala3encoders.given
 
   var dfSchema = Array("word")
   var dataFrame = Seq.empty[String].toDF(dfSchema: _*)
@@ -44,7 +45,6 @@ object SparkKafkaConsumer extends App {
     dataFrame = dataFrame.union(newRow)
     dataFrame.groupBy("word").count().sort(desc("count")).show()
   })
-
 
   sparkStreamingContext.start() // start the computation
   sparkStreamingContext.awaitTermination() // await termination
