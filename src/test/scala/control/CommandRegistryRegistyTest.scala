@@ -22,10 +22,9 @@ class CommandRegistryRegistyTest extends AnyWordSpec with Matchers {
   val channel = "imperiabot"
 
 
-
   "A CommandRegistryRegistyTest object" should {
     "add a command" in {
-        commandRegistryRegisty.addCommand(channel, commandMock)
+      commandRegistryRegisty.addCommand(channel, commandMock)
     }
 
     "remove a command in" in {

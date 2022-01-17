@@ -17,6 +17,9 @@ class TwitchConnectionTest extends AnyWordSpec with Matchers {
 
   val bot = Config.bots.head
   val twitchConnection = TwitchConnection.establishConnection(bot.name, bot.auth)
+  val twitchConnectionImpl = new TwitchConnectionImpl(bot.name, bot.auth)
+  val consumerMock = mock[TwitchConsumer]
+
   val channelName = "imperiabot"
 
   "A TwitchConnection" should {
@@ -33,6 +36,26 @@ class TwitchConnectionTest extends AnyWordSpec with Matchers {
       twitchConnection.getOutput shouldBe a[TwitchOutput]
     }
 
+    "run on start" in {
+      twitchConnection.start() shouldBe a[Unit]
+    }
+
+    "send a message on join" in {
+      twitchConnection.join("imperiabot")
+    }
+
+    "send a message on sendMessage" in {
+      twitchConnectionImpl.sendMessage("imperiabot", "msg") shouldBe a[Unit]
+    }
+    "send a message on sendMessage with tags" in {
+      val tags = Map("AL" -> "Alabama", "AK" -> "Alaska")
+      twitchConnectionImpl.sendMessage("imperiabot", "msg", tags) shouldBe a[Unit]
+    }
+
+    "be able to add and remove something from the subscribers list without craching" in {
+      twitchConnectionImpl.subscribe(consumerMock) shouldBe a[Unit]
+      twitchConnectionImpl.unSubscribe(consumerMock) shouldBe a[Unit]
+    }
 
   }
 

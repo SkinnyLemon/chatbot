@@ -32,7 +32,7 @@ object TwitchConnection {
   def establishConnection(accountName: String, authToken: String): TwitchConnection = new TwitchConnectionImpl(accountName, authToken)
 }
 
-private class TwitchConnectionImpl(accountName: String, authToken: String) extends Thread with TwitchConnection with TwitchOutput with RawInputProvider {
+class TwitchConnectionImpl(accountName: String, authToken: String) extends Thread with TwitchConnection with TwitchOutput with RawInputProvider {
   private val socket = new Socket("irc.twitch.tv", 6667)
   private val input = new BufferedReader(new InputStreamReader(socket.getInputStream))
   private val output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream))
