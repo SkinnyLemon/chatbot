@@ -10,5 +10,6 @@ case class CardPile(pile: List[Int]) {
     val newPile = pile.filter(_ != cardValue)
     (cardValue, copy(newPile))
 
-
+  def hasOneCardLeft(): Boolean =
+    return pile.length == 1
 }

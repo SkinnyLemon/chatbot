@@ -2,9 +2,10 @@ package de.htwg.rs.chatbot
 package view
 
 import control.{ChannelOutput, CommandRegistryRegisty, TwitchInputProvider, `when message`}
-import game.CoinFlipGameHandler
+import game.{CoinFlipGameHandler, MoreLessGameHandler}
 import io.{Config, TwitchConnection}
-import de.htwg.rs.chatbot.control._
+
+import de.htwg.rs.chatbot.control.*
 
 object ChatBot {
   def main(args: Array[String]): Unit = {
@@ -32,6 +33,7 @@ object ChatBot {
     registries.addCommand("imperiabot", helpCommand)
     registries.addCommand("imperiabot", helloCommand)
     registries.addCommand("imperiabot", new CoinFlipGameHandler())
+    registries.addCommand("imperiabot", new MoreLessGameHandler())
     registries.addCommand("imperiabot", starWars)
   }
 }
