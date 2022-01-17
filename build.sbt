@@ -2,7 +2,7 @@ name := "chatbot"
 
 version := "0.1"
 
-scalaVersion := "2.13.7"
+scalaVersion := "3.1.1-RC1"
 
 idePackagePrefix := Some("de.htwg.rs.chatbot")
 
@@ -12,14 +12,16 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
 )
 
-val AkkaVersion = "2.6.17"
+val AkkaVersion = "2.6.18"
 libraryDependencies += ("com.typesafe.akka" %% "akka-stream" % AkkaVersion)
     .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
 
-libraryDependencies += "org.apache.kafka" %% "kafka" % "3.0.0"
+libraryDependencies += ("org.apache.kafka" %% "kafka" % "3.0.0").cross(CrossVersion.for3Use2_13)
 libraryDependencies += "com.typesafe.akka" %% "akka-actor" % AkkaVersion
 
-libraryDependencies += ("org.apache.spark" % "spark-core_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
-libraryDependencies += ("org.apache.spark" % "spark-streaming_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
-libraryDependencies += ("org.apache.spark" % "spark-streaming-kafka-0-10_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
-libraryDependencies += ("org.apache.spark" % "spark-sql_2.13" % "3.2.0").exclude("org.scala-lang.modules", "scala-parser-combinators_2.13")
+val sparkVersion = "3.2.0"
+
+libraryDependencies += ("org.apache.spark" %% "spark-core" % sparkVersion).cross(CrossVersion.for3Use2_13).exclude("org.scala-lang.modules", "scala-parser-combinators_2.13").exclude("org.scala-lang.modules", "scala-xml_2.13")
+libraryDependencies += ("org.apache.spark" %% "spark-streaming" % "3.2.0").cross(CrossVersion.for3Use2_13).exclude("org.scala-lang.modules", "scala-parser-combinators_2.13").exclude("org.scala-lang.modules", "scala-xml_2.13")
+libraryDependencies += ("org.apache.spark" %% "spark-streaming-kafka-0-10" % "3.2.0").cross(CrossVersion.for3Use2_13).exclude("org.scala-lang.modules", "scala-parser-combinators_2.13").exclude("org.scala-lang.modules", "scala-xml_2.13")
+libraryDependencies += ("org.apache.spark" %% "spark-sql" % sparkVersion).cross(CrossVersion.for3Use2_13).exclude("org.scala-lang.modules", "scala-parser-combinators_2.13").exclude("org.scala-lang.modules", "scala-xml_2.13")

@@ -11,7 +11,7 @@ class Rope extends Actor {
   def receive = {
     case PullLeft => distanceFromMiddle -= 1
     case PullRight => distanceFromMiddle += 1
-    case GetScore => sender ! ("score is " + distanceFromMiddle)
+    case GetScore => sender() ! ("score is " + distanceFromMiddle)
     case GetWinner => "Game Over. Distance is " + distanceFromMiddle + ". " + getWinnerString(distanceFromMiddle)
 
   }

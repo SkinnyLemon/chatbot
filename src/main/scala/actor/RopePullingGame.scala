@@ -2,13 +2,14 @@ package de.htwg.rs.chatbot
 package actor
 
 import akka.actor.{ActorRef, ActorSystem, Props}
-import Messages._
+import Messages.*
 import akka.pattern.ask
 import akka.util.Timeout
 import de.htwg.rs.chatbot.model.{Command, TwitchInput}
 
+import java.util.concurrent.TimeUnit
 import scala.concurrent.Await
-import scala.concurrent.duration.DurationInt
+import scala.concurrent.duration.Duration
 import scala.language.postfixOps
 
 
@@ -26,7 +27,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command {
   }
 
   def newGame(input: TwitchInput): (RopePullingGame, Option[String]) = {
-    val newRope = system.actorOf(Props[Rope], s"Rope-${
+    val newRope = system.actorOf(Props[Rope](), s"Rope-${
       input.user.displayName
     }")
     (copy(ropes = ropes :+ newRope), Some(s"created a new Rope for ${
@@ -69,7 +70,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command {
       case None => return (copy(ropes), None)
     }
 
-    implicit val timeout = Timeout(1 seconds)
+    implicit val timeout = Timeout(1, TimeUnit.SECONDS)
     val future = ropeActor ? GetScore
     val result = Await.result(future, timeout.duration).asInstanceOf[String]
 
@@ -88,7 +89,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command {
       case None => return (copy(ropes), None)
     }
 
-    implicit val timeout = Timeout(1 seconds)
+    implicit val timeout = Timeout(1, TimeUnit.SECONDS)
     val future = ropeActor ? GetScore
     val result = Await.result(future, timeout.duration).asInstanceOf[String]
 
