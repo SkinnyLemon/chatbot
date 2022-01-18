@@ -18,7 +18,6 @@ case class IrisHandler(irisEvaluator: Evaluator) extends Command {
     //val numbers = matches.foreach(e => e.toDouble)
 
     if (matches.length != 4) then
-      matches.foreach(println(_))
       ((this, Some("Invalid format. Do like this: predict iris 6.5,2.8,5.6,2.1 ")))
     else
       val resultIris = irisEvaluator.evaluate(Iris(matches(0).toDouble, matches(1).toDouble, matches(2).toDouble, matches(3).toDouble))
