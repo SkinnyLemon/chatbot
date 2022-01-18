@@ -20,7 +20,7 @@ case class MlGameHandler(instances: List[MlGame] = List.empty) extends Command {
   }
 
   def startGame(input: TwitchInput): (Command, Option[String]) =
-    val game = MLCore.startGame(6, 12)
+    val game = MLCore.startGame(7, 12)
     val newGame = MlGame(input.user, game)
     (copy(instances = instances :+ newGame), Some(s"started a new higher-lower game for player ${input.user.displayName}! First card: ${game.current}!"))
 }

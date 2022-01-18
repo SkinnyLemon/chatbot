@@ -20,12 +20,30 @@ case class MlGame(player: User, game: Running) {
 
   private def processResult(playerResult: MLCore): (Option[MlGame], Option[String]) =
     playerResult match {
-      case w: Win => (None, Some(s"${w.current} => Player wins: ${w.streak} streak"))
-      case l: Loss => (None, Some(s"${l.current} => Player loses: ${l.streak} streak"))
+      case w: Win => (None, Some(generatePlayerWinsGameOverMessage(w.current, w.streak)))
+      case l: Loss => (None, Some(generatePlayerWrongGuessMessage(l.current, l.streak)))
       case player: Running => MlAi.play(player) match {
-        case l: Loss => (None, Some(s"${player.current}, ${l.current} => AI loses: ${l.streak} streak"))
-        case w: Win => (None, Some(s"${player.current}, ${w.current} => AI wins: ${w.streak} streak"))
-        case ai: Running => (Some(copy(game = ai)), Some(s"${player.current}, ${ai.current} => Still going: ${ai.streak} streak"))
+        case l: Loss => (None, Some(generateAiGuessedWrongMessage(player.current, l.current, l.streak)))
+        case w: Win => (None, Some(generateAiWinsGameOverMessage(player.current, w.current, w.streak)))
+        case ai: Running => (Some(copy(game = ai)), Some(generateRunningMessage(player.current, ai.current, ai.streak)))
       }
     }
+  private def generatePlayerWinsGameOverMessage(playerCard: Int, currentStreak: Int): String =
+    s"Correct! Game Over, you win. Card was a ${playerCard}. You got a streak of ${currentStreak}"
+
+
+  private def generatePlayerWrongGuessMessage(lastCard: Int, currentStreak: Int): String =
+      s"Too bad, you loose! The card drawn was a ${lastCard}. You got a streak of ${currentStreak}."
+
+
+  private def generateAiGuessedWrongMessage(playerCard: Int, aiCard: Int, currentStreak: Int): String =
+    s"Correct! next card was a ${playerCard}. Ai guessed wrong and has drawn a: ${aiCard} => Game over. Player wins! Streak: ${currentStreak}"
+
+  private def generateAiWinsGameOverMessage(playerCard: Int, aiCard: Int, currentStreak: Int): String =
+    s"Correct! next card was a ${playerCard}. Ai guessed correct and has drawn a: ${aiCard} => Game over. Both win! Streak: ${currentStreak}"
+
+  private def generateRunningMessage(playerCard: Int, aiCard: Int, currentStreak: Int): String =
+    s"Correct! next card was a ${playerCard}. Ai had a correct guess for the card drawn: ${aiCard}. The game is still going. Current Streak: ${currentStreak}. Will you go (h)igher or (l)ower than ${aiCard}?"
+
+
 }

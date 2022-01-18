@@ -9,11 +9,11 @@ object MLCore {
     Running(cardPile, List(firstCard))
 }
 
-sealed abstract class MLCore(previous: List[Int]) {
-  def current: Int = previous.last
+sealed abstract class MLCore(discardPile: List[Int]) {
+  def current: Int = discardPile.last
 }
 
-case class Running(cards: Cards, previous: List[Int], streak: Int = 0) extends MLCore(previous) {
+case class Running(cards: Cards, discardPile: List[Int], streak: Int = 0) extends MLCore(discardPile) {
   def betMore = bet(_ > current)
   def betLess = bet(_ < current)
 
@@ -21,11 +21,11 @@ case class Running(cards: Cards, previous: List[Int], streak: Int = 0) extends M
     val (pulled, newPile) = cards.drawCard()
     if betWon(pulled) then
       if newPile.isEmpty then
-        Win(previous :+ pulled, streak + 1)
+        Win(discardPile :+ pulled, streak + 1)
       else
-        Running(newPile, previous :+ pulled, streak + 1)
+        Running(newPile, discardPile :+ pulled, streak + 1)
     else
-      Loss(previous :+ pulled, streak)
+      Loss(discardPile :+ pulled, streak)
 }
 
 case class Win(previous: List[Int], streak: Int) extends MLCore(previous)
