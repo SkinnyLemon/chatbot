@@ -6,9 +6,12 @@ import game.{CoinFlipGameHandler, MlGameHandler}
 import io.{Config, TwitchConnection}
 
 import de.htwg.rs.chatbot.control.*
+import de.htwg.rs.chatbot.iris.{Evaluator, IrisClassifier, IrisHandler}
 
 object ChatBot {
   def main(args: Array[String]): Unit = {
+
+    val irisEvaluator: Evaluator = new IrisClassifier().initialize()
 
     val bot = Config.bots.head
     val twitchConnection = TwitchConnection.establishConnection(bot.name, bot.auth)
@@ -34,6 +37,7 @@ object ChatBot {
     registries.addCommand("imperiabot", helloCommand)
     registries.addCommand("imperiabot", new CoinFlipGameHandler())
     registries.addCommand("imperiabot", new MlGameHandler())
+    registries.addCommand("imperiabot", new IrisHandler(irisEvaluator))
     registries.addCommand("imperiabot", starWars)
   }
 }
