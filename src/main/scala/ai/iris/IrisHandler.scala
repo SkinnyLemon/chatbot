@@ -1,8 +1,7 @@
-package de.htwg.rs.chatbot
-package iris
+package de.htwg.rs.chatbot.ai.iris
 
-import de.htwg.rs.chatbot.iris.{Evaluator}
-import model.{Command, TwitchInput}
+import de.htwg.rs.chatbot.ai.{Classifier, Evaluator}
+import de.htwg.rs.chatbot.model.{Command, TwitchInput}
 import de.htwg.rs.chatbot.model.Iris
 
 case class IrisHandler(irisEvaluator: Evaluator[Iris]) extends Command {

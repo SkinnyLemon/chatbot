@@ -3,7 +3,7 @@ package game
 
 import model.{HiLoGame, TwitchInput, User}
 
-import de.htwg.rs.chatbot.iris.Evaluator
+import de.htwg.rs.chatbot.ai.{Classifier, Evaluator}
 
 case class MlGame(player: User, game: Running, hiLoGameEvaluator: Evaluator[HiLoGame]) {
   def handle(input: TwitchInput): (Option[MlGame], Option[String]) =
