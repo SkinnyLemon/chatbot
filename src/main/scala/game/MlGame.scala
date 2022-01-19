@@ -17,7 +17,7 @@ case class MlGame(player: User, game: Running, hiLoGameEvaluator: Evaluator[HiLo
       case "m" | "h" => processResult(game.betMore)
       case "l" | "t" => processResult(game.betLess)
       case "s" | "score" => (Some(this), Some(s"Streak: ${game.streak}"))
-      case "e" | "exit" => (None, Some("ok baiii"))
+      case "e" | "exit" => (None, Some("Ok. See you arround!"))
       case _ => (Some(this), None)
 
   private def processResult(playerResult: MLCore): (Option[MlGame], Option[String]) =

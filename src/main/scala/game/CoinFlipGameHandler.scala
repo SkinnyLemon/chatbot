@@ -6,7 +6,7 @@ import model.{Command, TwitchInput}
 
 case class CoinFlipGameHandler(instances: List[CoinFlipGame] = List.empty) extends Command {
   override def handle(input: TwitchInput): (Command, Option[String]) = input.message.text match {
-    case "p" | "play" => startGame(input)
+    case "p -c" | "play coinflip" => startGame(input)
     case _ =>
       var response: Option[String] = None
       val newInstances = instances.map(_.handle(input))

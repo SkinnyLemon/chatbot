@@ -24,21 +24,16 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
       case _ => (Some(this), None)
 
   private def processGame(choice: String): (Option[CoinFlipGame], Option[String]) =
-    //reply(input, s"Your pick: ${choice}.")
-    //reply(input, "Flipping a coin! Good luck!")
     val coinFlipResult = coinFlip()
-    //reply(input, coinFlipResult)
     val isWin = coinFlipResult.toLowerCase == choice
     val matchResultMessage = generateMatchResultMessage(isWin)
-    //reply(input, matchResultMessage)
-    //reply(input, "Play again? Just continue. To stop playing type (e)xit")
     (Some(nextRound(isWin)), Some(matchResultMessage))
 
   private def generateMatchResultMessage(isWin: Boolean): String =
     if (isWin)
-      "WutFace WutFace H0w did that happen?! you won! NotLikeThis  Anyway. Congrats Kappa Kappa "
+      "WutFace How did that happen?! You won and I lost! NotLikeThis  Congrats! SeemsGood SeemsGood"
     else
-      "O neim! du hast verloren!!! lelelelel PogChamp PogChamp PogChamp"
+      "Oh no! You lost! NotLikeThis better luck next time! SeemsGood"
 
   private def nextRound(isWin: Boolean): CoinFlipGame =
     if (isWin)
@@ -52,5 +47,5 @@ case class CoinFlipGame(player: User, wins: Int = 0, losses: Int = 0) {
   private def coinFlip(): String = if (Random.nextBoolean()) "Head" else "Tails"
 
   private def endGame(): (Option[CoinFlipGame], Option[String]) =
-    (None, Some("ok baiii"))
+    (None, Some("Ok. See you arround!"))
 }
