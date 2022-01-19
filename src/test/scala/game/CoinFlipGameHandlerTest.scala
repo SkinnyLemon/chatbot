@@ -11,7 +11,7 @@ import org.scalatestplus.mockito.MockitoSugar.mock
 
 class CoinFlipGameHandlerTest extends AnyWordSpec with Matchers {
 
-  "A CoinFlipGameHandlerTest object" should {
+  "A CoinFlipGameHandler object" should {
 
     val twitchInputMock = mock[TwitchInput]
     val userObject = User(userName = "TestUser", displayName = "TestUser", userId = "1234")
@@ -20,7 +20,7 @@ class CoinFlipGameHandlerTest extends AnyWordSpec with Matchers {
     "start a game with a play command" in {
 
       val coinFlipGameHandler = CoinFlipGameHandler()
-      val messageObject = Message(Array.empty, "play", 123123, "123123")
+      val messageObject = Message(Array.empty, "play coinflip", 123123, "123123")
       when(twitchInputMock.message).thenReturn(messageObject)
 
       coinFlipGameHandler.handle(twitchInputMock)
