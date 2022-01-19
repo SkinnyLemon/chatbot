@@ -70,7 +70,7 @@ case class IrisClassifier() extends Classifier[Iris] with Evaluator[Iris] {
     val numLinesToSkip = 0;
     val delimiter = ',';
     val recordReader = new CSVRecordReader(numLinesToSkip, delimiter)
-    recordReader.initialize(new FileSplit(new File("C:\\Projects\\chatbot\\src\\main\\scala\\ai\\iris\\iris.txt")));
+    recordReader.initialize(new FileSplit(new File("src/main/scala/ai/iris/iris.txt")));
 
     val labelIndex = 4
     val numClasses = 3
