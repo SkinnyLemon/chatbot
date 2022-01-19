@@ -15,3 +15,7 @@ libraryDependencies ++= Seq(
 
 // https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core
 libraryDependencies += "org.deeplearning4j" % "deeplearning4j-core" % "1.0.0-M1.1"
+libraryDependencies += "org.nd4j" % "nd4j-api" % "1.0.0-M1.1"
+libraryDependencies += "org.datavec" % "datavec-api" % "1.0.0-M1.1"
+libraryDependencies += "org.nd4j" % "nd4j-native" % "1.0.0-M1.1"
+libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.6.2" % Test
