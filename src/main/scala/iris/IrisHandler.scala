@@ -5,7 +5,7 @@ import de.htwg.rs.chatbot.iris.{Evaluator}
 import model.{Command, TwitchInput}
 import de.htwg.rs.chatbot.model.Iris
 
-case class IrisHandler(irisEvaluator: Evaluator) extends Command {
+case class IrisHandler(irisEvaluator: Evaluator[Iris]) extends Command {
   override def handle(input: TwitchInput): (Command, Option[String]) = {
     val command = input.message.text
     if (command.startsWith("predict iris")) then executePrediction(command) else (this, None)

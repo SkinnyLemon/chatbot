@@ -1,9 +1,11 @@
 package de.htwg.rs.chatbot
 package game
 
-import model.{Command, TwitchInput}
+import model.{Command, HiLoGame, TwitchInput}
 
-case class MlGameHandler(instances: List[MlGame] = List.empty) extends Command {
+import de.htwg.rs.chatbot.iris.Evaluator
+
+case class MlGameHandler(instances: List[MlGame] = List.empty, hiLoGameEvaluator: Evaluator[HiLoGame]) extends Command {
 
   override def handle(input: TwitchInput): (Command, Option[String]) = input.message.text match {
     case "p2" | "play2" => startGame(input)
@@ -16,11 +18,12 @@ case class MlGameHandler(instances: List[MlGame] = List.empty) extends Command {
         }
         .filter(_.isDefined)
         .map(_.get)
-      (copy(newInstances), response)
+      (copy(newInstances, hiLoGameEvaluator), response)
   }
 
   def startGame(input: TwitchInput): (Command, Option[String]) =
+    //val game = MLCore.startGame(1, 18)
     val game = MLCore.startGame(7, 12)
-    val newGame = MlGame(input.user, game)
-    (copy(instances = instances :+ newGame), Some(s"started a new higher-lower game for player ${input.user.displayName}! First card: ${game.current}!"))
+    val newGame = MlGame(input.user, game, hiLoGameEvaluator)
+    (copy(instances = instances :+ newGame, hiLoGameEvaluator), Some(s"started a new higher-lower game for player ${input.user.displayName}! First card: ${game.current}!"))
 }
