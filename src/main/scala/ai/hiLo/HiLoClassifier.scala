@@ -1,5 +1,4 @@
-package de.htwg.rs.chatbot
-package ai
+package de.htwg.rs.chatbot.ai.hiLo
 
 import de.htwg.rs.chatbot.ai.{Classifier, Evaluator}
 import de.htwg.rs.chatbot.model.HiLoGame

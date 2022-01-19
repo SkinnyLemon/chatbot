@@ -47,22 +47,6 @@ object ChatBot {
     registries.addCommand("imperiabot", new IrisHandler(irisEvaluator))
     registries.addCommand("imperiabot", starWars)
 
-
-    //asdf()
-    //    getOptimalSolution(10, List.empty) //t
-    //
-    //    getOptimalSolution(7 , List(10)) //h
-    //    getOptimalSolution(10 , List(12)) //t
-    //
-    //    getOptimalSolution(10 , List(12,11)) //t
-    //    getOptimalSolution(8 , List(9,12)) //h
-    //    getOptimalSolution(10 , List(11,8, 7,9)) //l
-
-    //    (1 to 1000).foreach(_ => {
-    //      asdf()
-    //    })
-
-
   }
 
 }
