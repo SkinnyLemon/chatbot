@@ -61,7 +61,7 @@ class HiLoClassifier extends Classifier[HiLoGame] with Evaluator[HiLoGame] {
     val numLinesToSkip = 0;
     val delimiter = ',';
     val recordReader = new CSVRecordReader(numLinesToSkip, delimiter);
-    recordReader.initialize(new FileSplit(new File("C:\\Projects\\chatbot\\src\\main\\scala\\ai\\hiLo\\higher-lower-no-duplicates.txt")));
+    recordReader.initialize(new FileSplit(new File("src/main/scala/ai/hiLo/higher-lower-no-duplicates.txt")));
 
     val labelIndex = 5
     val numClasses = 2
