@@ -2,20 +2,30 @@ name := "chatbot"
 
 version := "0.1"
 
-scalaVersion := "3.0.2"
+scalaVersion := "3.1.0"
 
 idePackagePrefix := Some("de.htwg.rs.chatbot")
 
-libraryDependencies ++= Seq( 
-"org.scalactic" %% "scalactic" % "3.2.10",
-"org.scalatest" %% "scalatest" % "3.2.10" % "test",
-"org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
-"org.scalatestplus" %% "mockito-3-4" % "3.2.10.0" % "test"
-)
+val ScalaTestVersion = "3.2.10"
+val AkkaVersion = "2.6.17"
+val DeepLearning4jVersion = "1.0.0-M1.1"
 
-// https://mvnrepository.com/artifact/org.deeplearning4j/deeplearning4j-core
-libraryDependencies += "org.deeplearning4j" % "deeplearning4j-core" % "1.0.0-M1.1"
-libraryDependencies += "org.nd4j" % "nd4j-api" % "1.0.0-M1.1"
-libraryDependencies += "org.datavec" % "datavec-api" % "1.0.0-M1.1"
-libraryDependencies += "org.nd4j" % "nd4j-native" % "1.0.0-M1.1"
-libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.6.2" % Test
+libraryDependencies ++= Seq(
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "2.1.0",
+  ("org.apache.kafka" %% "kafka" % "3.0.0")
+    .cross(CrossVersion.for3Use2_13),
+
+  "org.scalactic" %% "scalactic" % ScalaTestVersion,
+  "org.scalatest" %% "scalatest" % ScalaTestVersion % "test",
+  "org.scalatestplus" %% "mockito-3-4" % "3.2.10.0" % "test",
+
+  ("com.typesafe.akka" %% "akka-stream" % AkkaVersion)
+    .exclude("org.scala-lang.modules", "scala-parser-combinators_2.13"),
+  "com.typesafe.akka" %% "akka-actor" % AkkaVersion,
+
+  "org.deeplearning4j" % "deeplearning4j-core" % DeepLearning4jVersion,
+  "org.nd4j" % "nd4j-api" % DeepLearning4jVersion,
+  "org.datavec" % "datavec-api" % DeepLearning4jVersion,
+  "org.nd4j" % "nd4j-native" % DeepLearning4jVersion,
+  "org.slf4j" % "slf4j-simple" % "1.6.2" % Test
+)

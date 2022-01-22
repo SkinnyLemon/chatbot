@@ -2,7 +2,7 @@ package de.htwg.rs.chatbot.io
 
 import java.io.{BufferedReader, BufferedWriter, InputStreamReader, OutputStreamWriter}
 import java.net.Socket
-import scala.util.{Failure, Try}
+import scala.util.Try
 
 trait TwitchOutput {
   def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit
@@ -48,7 +48,7 @@ class TwitchConnectionImpl(accountName: String, authToken: String) extends Threa
     if (token == null) {
       return
     }
-    println(token)
+    //println(token)
     if (token.startsWith("PING")) {
       output.write("PONG :tmi.twitch.tv\r\n")
       output.flush()
@@ -60,7 +60,7 @@ class TwitchConnectionImpl(accountName: String, authToken: String) extends Threa
 
   override def join(channel: String): Unit = send(s"JOIN #${channel.toLowerCase}")
 
-  override def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit =
+  override def sendMessage(channel: String, message: String, tags: Map[String, String] = Map.empty): Unit = {
     var tagString = tags
       .map { case (key, value) => s"$key=$value" }
       .mkString(";")
@@ -68,6 +68,7 @@ class TwitchConnectionImpl(accountName: String, authToken: String) extends Threa
       if (tags.isEmpty) ""
       else s"@$tagString"
     send(s"$tagString PRIVMSG #$channel :$message")
+  }
 
   private def send(text: String): Unit = {
     println(text)
@@ -81,7 +82,8 @@ class TwitchConnectionImpl(accountName: String, authToken: String) extends Threa
 
   override def unSubscribe(subscriber: TwitchConsumer): Unit =
     subscribers = subscribers.filter(_ != subscriber) //TODO better way in scala to remove things from list?
-    println(subscribers)
+
+  println(subscribers)
 
   override def getOutput: TwitchOutput = this
 

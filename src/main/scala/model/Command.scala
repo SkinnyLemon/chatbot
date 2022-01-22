@@ -1,8 +1,6 @@
 package de.htwg.rs.chatbot
 package model
 
-import control.ChannelOutput
-
 trait Command {
   def handle(message: TwitchInput): (Command, Option[String])
 }

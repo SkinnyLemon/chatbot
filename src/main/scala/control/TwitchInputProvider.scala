@@ -1,12 +1,10 @@
 package de.htwg.rs.chatbot
 package control
 
-import game.*
 import io.{TwitchConnection, TwitchConsumer, TwitchOutput}
-import model.{TwitchInput, TwitchInputParser}
+import model.TwitchInputParser
 
-import scala.collection.mutable
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success}
 
 class TwitchInputProvider(output: TwitchOutput, twitchConnection: TwitchConnection, commandRegistries: CommandRegistryRegisty) extends TwitchConsumer {
   private val parser = new TwitchInputParser()

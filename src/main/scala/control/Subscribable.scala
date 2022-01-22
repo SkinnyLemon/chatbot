@@ -9,7 +9,7 @@ trait Subscriber[T] {
 
 trait Subscribable[T] {
   protected val subscribers = ListBuffer.empty[Subscriber[T]]
-  
+
   def subscribe(subscriber: Subscriber[T]): Unit = subscribers += subscriber
 
   def unsubscribe(subscriber: Subscriber[T]): Unit = subscribers -= subscriber
