@@ -25,16 +25,18 @@ object ChatBot:
     val parser = new TwitchInputParser
     val registry = new CommandRegistryRegisty(akkaAdapter.connection.getOutput)
 
-    val playHelpCommand = `when message` `is` "help -g" `respond with` "2 games available: 'p -c'/'play coinflip': coinflip game; 'p -h'/'play hilo': starts new high low game vs AI"
+    val playHelpCommand = `when message` `is` "help -g" `respond with` "3 games available: 'p -c'/'play coinflip': rope pulling game: 'new rope' (see help -g rope); 'p -c'/'play coinflip ;'p -h'/'play hilo': starts new high low game vs AI"
+    val ropeGameHelpCommand = `when message` `is` "help -g rope" `respond with` "'new rope' to initiate new rope. Use command 'pull (left/right) @player' to pull the rope. 'let loose/end game' to end game. 'print score' to print the ropes position."
     val createCommandHelpCommand = `when message` `is` "help -c" `respond with` "create your own command like this:  > !create when message (starts with/is/ends with/contains) \"your commandword\" respond with \"your response\" <"
     val miscHelpCommand = `when message` `is` "help -m" `respond with` "extra commands: 'hey'; 'hello there'; 'hello'"
     val heyCommand = `when message` `starts with` "hey" `respond with` "TheIlluminati"
-    val helpCommand = `when message` `contains` "help" `respond with` "Commands: hello, help, play"
+    val helpCommand = `when message` `contains` "help" `respond with` "helpflags: -g: games, -c: create commands, -m: misc"
     val starWars = `when message` `ends with` "hello there" `respond with` "General Kenobi BrainSlug"
     val helloCommand = `when message` `is` "hello" `respond with` "Hello there! HeyGuys HeyGuys"
     registry.addCommand("imperiabot", heyCommand)
     registry.addCommand("imperiabot", helpCommand)
     registry.addCommand("imperiabot", playHelpCommand)
+    registry.addCommand("imperiabot", ropeGameHelpCommand)
     registry.addCommand("imperiabot", createCommandHelpCommand)
     registry.addCommand("imperiabot", miscHelpCommand)
     registry.addCommand("imperiabot", helloCommand)

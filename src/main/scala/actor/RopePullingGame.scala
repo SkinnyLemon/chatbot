@@ -20,7 +20,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command :
     case "new rope" => newGame(input)
     case "let loose" | "end game" | "alt f4" => endGame(input.user.displayName)
     case "print score" => printScore(input.user.displayName)
-    case text if text startsWith ("pull") => executePullOnPlayer(text) //TODO parse player, execute
+    case text if text startsWith ("pull") => executePullOnPlayer(text)
     case _ => (copy(ropes), None)
 
   def newGame(input: TwitchInput): (RopePullingGame, Option[String]) =
@@ -32,11 +32,11 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command :
     val direction = text.split(" ")(1)
     val name = nameOption match
       case Some(name) => name substring (1) //strips '@' from name
-      case None => return (copy(ropes), None) //TODO better way than to return here?
+      case None => return (copy(ropes), None)
     val directionMessage = direction match
       case "left" => PullLeft
       case "right" => PullRight
-      case _ => return (copy(ropes), None) //TODO better way than to return here?
+      case _ => return (copy(ropes), None)
     val ropeInstance = ropes.find(_.toString().contains(name))
     val ropeActor = ropeInstance match
       case Some(instance) => instance
@@ -46,7 +46,6 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command :
 
 
   def endGame(displayName: String): (Command, Option[String]) =
-    println("ending game for username: " + displayName)
     val ropeInstance = ropes.find(_.toString().contains(displayName))
     val ropeActor = ropeInstance match
       case Some(instance) => instance
