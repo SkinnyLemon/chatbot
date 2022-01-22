@@ -33,11 +33,11 @@ case class MlGame(player: User, game: Running, hiLoGameEvaluator: Evaluator[HiLo
 
 
   private def generateAiDecision(game: Running): MLCore = {
-    val first = if(game.discardPile.length >= 1) then game.discardPile(0) else 0
-    val second = if(game.discardPile.length >= 2) then game.discardPile(1) else 0
-    val third = if(game.discardPile.length >= 3) then game.discardPile(2) else 0
-    val fourth = if(game.discardPile.length >= 4) then game.discardPile(3) else 0
-    val fifth = if(game.discardPile.length >= 5) then game.discardPile(4) else 0
+    val first = if (game.discardPile.length >= 1) then game.discardPile(0) else 0
+    val second = if (game.discardPile.length >= 2) then game.discardPile(1) else 0
+    val third = if (game.discardPile.length >= 3) then game.discardPile(2) else 0
+    val fourth = if (game.discardPile.length >= 4) then game.discardPile(3) else 0
+    val fifth = if (game.discardPile.length >= 5) then game.discardPile(4) else 0
 
     val gameState = HiLoGame(first, second, third, fourth, fifth)
     val gameStateWithPrediction = hiLoGameEvaluator.evaluate(gameState)
@@ -52,7 +52,7 @@ case class MlGame(player: User, game: Running, hiLoGameEvaluator: Evaluator[HiLo
 
 
   private def generatePlayerWrongGuessMessage(lastCard: Int, currentStreak: Int): String =
-      s"Too bad, you loose! The card drawn was a ${lastCard}. You got a streak of ${currentStreak}."
+    s"Too bad, you loose! The card drawn was a ${lastCard}. You got a streak of ${currentStreak}."
 
 
   private def generateAiGuessedWrongMessage(playerCard: Int, aiCard: Int, currentStreak: Int): String =

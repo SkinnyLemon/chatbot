@@ -12,14 +12,17 @@ import org.scalatestplus.mockito.MockitoSugar.mock
 class MlGameTest extends AnyWordSpec with Matchers {
 
   "A MlGame object" should {
-    val game = MLCore.startGame(7, 12) //TODO -> game mock to get rid of randomness
-    val mLCoreObject = Running
+    val winMock = mock[Win]
+    val lossMock = mock[Loss]
+    val gameMock = mock[Running]
+    val anotherGameMock = mock[Running]
+
     val twitchInputMock = mock[TwitchInput]
     val hiLoGameEvaluatorMock = mock[Evaluator[HiLoGame]]
     val userObject = User("Player1", "Player1", "id-1234")
 
 
-    val mlGame = MlGame(userObject, game, hiLoGameEvaluatorMock)
+    val mlGame = MlGame(userObject, gameMock, hiLoGameEvaluatorMock)
     val messageObject = Message(Array.empty, "non valid command", 123123, "123123")
     when(twitchInputMock.message).thenReturn(messageObject)
     when(twitchInputMock.user).thenReturn(userObject)
@@ -45,112 +48,88 @@ class MlGameTest extends AnyWordSpec with Matchers {
       val messageObject = Message(Array.empty, "h", 123123, "123123")
       when(twitchInputMock.message).thenReturn(messageObject)
       when(twitchInputMock.user).thenReturn(userObject)
-      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(0)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,1))
+      when(gameMock.betMore).thenReturn(winMock)
 
       mlGame.handle(twitchInputMock)
       verify(twitchInputMock, times(1)).user
     }
-    
-    //    "handle the input for a existing user instance" in {
-//      val messageObject = Message(Array.empty, "h", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//      when(twitchInputMock.user).thenReturn(userObject)
-//
-//      mlGame.handle(twitchInputMock) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "ignore the input for other users" in {
-//      val messageObject = Message(Array.empty, "h", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//
-//      val differentInputUser = User("Player2", "Player2", "id-4321")
-//      when(twitchInputMock.user).thenReturn(differentInputUser)
-//
-//      mlGame.handle(twitchInputMock) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "detect h or head as user input command" in {
-//      val messageObject = Message(Array.empty, "h", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//
-//      val processInput = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processInput"))
-//
-//      mlGame.invokePrivate(processInput(twitchInputMock)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "detect t or tails as user input command" in {
-//      val messageObject = Message(Array.empty, "t", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//
-//      val processInput = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processInput"))
-//
-//      mlGame.invokePrivate(processInput(twitchInputMock)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "detect s or score as user input command" in {
-//      val messageObject = Message(Array.empty, "s", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//
-//      val processInput = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processInput"))
-//
-//      mlGame.invokePrivate(processInput(twitchInputMock)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "detect e or exit as user input command" in {
-//      val messageObject = Message(Array.empty, "e", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//
-//      val processInput = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processInput"))
-//
-//      mlGame.invokePrivate(processInput(twitchInputMock)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "return the instance when no user command was given" in {
-//      val messageObject = Message(Array.empty, "no user command", 123123, "123123")
-//      when(twitchInputMock.message).thenReturn(messageObject)
-//      val processInput = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processInput"))
-//
-//      mlGame.invokePrivate(processInput(twitchInputMock)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "process a game" in {
-//      val processGame = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("processGame"))
-//      val choice = "h"
-//
-//      mlGame.invokePrivate(processGame(choice)) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "generate a result message" in {
-//      val generateMatchResultMessage = PrivateMethod[String](Symbol("generateMatchResultMessage"))
-//      val isWin = true
-//
-//      mlGame.invokePrivate(generateMatchResultMessage(isWin)) shouldBe a[String]
-//    }
-//
-//    "increment or decrement the win/loss counter" in {
-//      val nextRound = PrivateMethod[CoinFlipGame](Symbol("nextRound"))
-//      val isWin = true
-//
-//      mlGame.invokePrivate(nextRound(isWin)) shouldBe a[CoinFlipGame]
-//    }
-//
-//    "send back the end result" in {
-//      val sendResult = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("sendResult"))
-//
-//      mlGame.invokePrivate(sendResult()) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
-//
-//    "generate a random head or tails value" in {
-//      val coinFlip = PrivateMethod[String](Symbol("coinFlip"))
-//
-//      mlGame.invokePrivate(coinFlip()) shouldBe a[String]
-//    }
-//
-//    "end the game" in {
-//      val endGame = PrivateMethod[(Option[CoinFlipGame], Option[String])](Symbol("endGame"))
-//
-//      mlGame.invokePrivate(endGame()) shouldBe a[(Option[CoinFlipGame], Option[String])]
-//    }
 
+
+    "generate player wins game over message on game over" in {
+      val twitchInputMock = mock[TwitchInput]
+      val messageObject = Message(Array.empty, "h", 123123, "123123")
+      when(twitchInputMock.message).thenReturn(messageObject)
+      when(twitchInputMock.user).thenReturn(userObject)
+      when(gameMock.betMore).thenReturn(winMock)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,1))
+      val output = mlGame.handle(twitchInputMock)
+
+      output._1 shouldBe None
+      output._2.get shouldBe "Correct! Game Over, you win. Card was a 0. You got a streak of 0"
+    }
+
+
+    "generate player wrong guess message on wrong player guess " in {
+      val twitchInputMock = mock[TwitchInput]
+      val messageObject = Message(Array.empty, "h", 123123, "123123")
+      when(twitchInputMock.message).thenReturn(messageObject)
+      when(twitchInputMock.user).thenReturn(userObject)
+      when(gameMock.betMore).thenReturn(lossMock)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,1))
+      val output = mlGame.handle(twitchInputMock)
+
+      output._1 shouldBe None
+      output._2.get shouldBe "Too bad, you loose! The card drawn was a 0. You got a streak of 0."
+    }
+
+    "generate ai loss message when ai lost " in {
+      val twitchInputMock = mock[TwitchInput]
+      val messageObject = Message(Array.empty, "h", 123123, "123123")
+      when(twitchInputMock.message).thenReturn(messageObject)
+      when(twitchInputMock.user).thenReturn(userObject)
+      when(gameMock.betMore).thenReturn(anotherGameMock)
+      when(anotherGameMock.betMore).thenReturn(lossMock)
+      when(anotherGameMock.betLess).thenReturn(lossMock)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,0))
+      when(anotherGameMock.discardPile).thenReturn(List(0,0,0,0,0))
+      val output = mlGame.handle(twitchInputMock)
+
+      output._1 shouldBe None
+      output._2.get shouldBe "Correct! next card was a 0. Ai guessed wrong and has drawn a: 0 => Game over. Player wins! Streak: 0"
+    }
+
+
+    "generate ai win message when ai finishes the game " in {
+      val twitchInputMock = mock[TwitchInput]
+      val messageObject = Message(Array.empty, "h", 123123, "123123")
+      when(twitchInputMock.message).thenReturn(messageObject)
+      when(twitchInputMock.user).thenReturn(userObject)
+      when(gameMock.betMore).thenReturn(anotherGameMock)
+      when(anotherGameMock.betMore).thenReturn(winMock)
+      when(anotherGameMock.betLess).thenReturn(winMock)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,0))
+      when(anotherGameMock.discardPile).thenReturn(List(0,0,0,0,0))
+      val output = mlGame.handle(twitchInputMock)
+
+      output._1 shouldBe None
+      output._2.get shouldBe "Correct! next card was a 0. Ai guessed correct and has drawn a: 0 => Game over. Both win! Streak: 0"
+    }
+
+    "generate game running message when game continues " in {
+      val twitchInputMock = mock[TwitchInput]
+      val messageObject = Message(Array.empty, "h", 123123, "123123")
+      when(twitchInputMock.message).thenReturn(messageObject)
+      when(twitchInputMock.user).thenReturn(userObject)
+      when(gameMock.betMore).thenReturn(anotherGameMock)
+      when(anotherGameMock.betMore).thenReturn(anotherGameMock)
+      when(anotherGameMock.betLess).thenReturn(anotherGameMock)
+      when(hiLoGameEvaluatorMock.evaluate(any())).thenReturn(HiLoGame(0,0,0,0,0,1))
+      when(anotherGameMock.discardPile).thenReturn(List(0,0,0,0,0))
+      val output = mlGame.handle(twitchInputMock)
+
+      output._1.get shouldBe MlGame(userObject, anotherGameMock, hiLoGameEvaluatorMock)
+      output._2.get shouldBe "Correct! next card was a 0. Ai had a correct guess for the card drawn: 0. The game is still going. Current Streak: 0. Will you go (h)igher or (l)ower than 0?"
+    }
   }
 }
