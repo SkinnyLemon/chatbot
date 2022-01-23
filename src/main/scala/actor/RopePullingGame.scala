@@ -36,7 +36,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command :
     val directionMessage = direction match
       case "left" => PullLeft
       case "right" => PullRight
-      case _ => return (copy(ropes), None)
+      case _ => (copy(ropes), None)
     val ropeInstance = ropes.find(_.toString().contains(name))
     val ropeActor = ropeInstance match
       case Some(instance) => instance
@@ -55,7 +55,7 @@ case class RopePullingGame(ropes: List[ActorRef] = List.empty) extends Command :
 
     given Timeout = timeout
 
-    val future = ropeActor ? GetScore
+    val future = ropeActor ? GetWinner
     val result = Await.result(future, timeout.duration).asInstanceOf[String]
 
     val updatedRopeList = ropes.filter(_ != ropeActor)
