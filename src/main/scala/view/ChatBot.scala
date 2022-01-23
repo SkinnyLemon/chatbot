@@ -33,6 +33,7 @@ object ChatBot:
     val helpCommand = `when message` `contains` "help" `respond with` "helpflags: -g: games, -c: create commands, -m: misc"
     val starWars = `when message` `ends with` "hello there" `respond with` "General Kenobi BrainSlug"
     val helloCommand = `when message` `is` "hello" `respond with` "Hello there! HeyGuys HeyGuys"
+    val howAreYouCommand = `when message` `starts with` "how are you" `respond with` "I'm great. Thank's for asking! How about you?"
     registry.addCommand("imperiabot", heyCommand)
     registry.addCommand("imperiabot", helpCommand)
     registry.addCommand("imperiabot", playHelpCommand)
@@ -40,6 +41,7 @@ object ChatBot:
     registry.addCommand("imperiabot", createCommandHelpCommand)
     registry.addCommand("imperiabot", miscHelpCommand)
     registry.addCommand("imperiabot", helloCommand)
+    registry.addCommand("imperiabot", howAreYouCommand)
     registry.addCommand("imperiabot", new CoinFlipGameHandler())
     registry.addCommand("imperiabot", new RopePullingGame())
     registry.addCommand("imperiabot", new MlGameHandler(List.empty, hiLoGameEvaluator))
