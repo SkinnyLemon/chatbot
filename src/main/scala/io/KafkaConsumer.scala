@@ -8,7 +8,7 @@ import java.util
 import java.util.Properties
 import scala.collection.JavaConverters.*
 
-object TestKafkaConsumer extends App :
+object KafkaConsumer extends App :
   val props = new Properties()
   props.put("bootstrap.servers", "localhost:9092")
   props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
