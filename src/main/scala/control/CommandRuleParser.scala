@@ -26,8 +26,8 @@ class RuleParser extends RegexParsers :
     }
 
 
-class MyParser extends RuleParser :
+class CommandRuleParser extends RuleParser :
   def apply(text: String): Either[String, Command] =
     parse(sequence, text) match
       case Success(t, _) => Right(t)
-      case NoSuccess(msg, next) => Left("Oh neim! hat nix geklapt :(")
+      case NoSuccess(msg, next) => Left("Parsing not successful!")

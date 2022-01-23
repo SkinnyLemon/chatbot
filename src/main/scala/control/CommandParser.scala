@@ -9,7 +9,7 @@ class CommandParser:
   def handle(input: TwitchInput): (Option[Command], Option[String]) =
     if (!input.message.text.startsWith(commandPrefix))
       return (None, None)
-    val parse = new MyParser()
+    val parse = new CommandRuleParser()
     parse(input.message.text.drop(commandPrefix.length)) match
       case Right(cmd) =>
         (Some(cmd), Some("command created"))
