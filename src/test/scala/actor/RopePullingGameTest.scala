@@ -16,7 +16,6 @@ class RopePullingGameTest extends AnyWordSpec with Matchers {
 
   "A RopePullingGame input parser" should {
 
-
     "handle input for new rope" in {
       val ropePullingGame = RopePullingGame();
       val messageObject = Message(Array.empty, "new rope", 123123, "123123")
@@ -52,7 +51,7 @@ class RopePullingGameTest extends AnyWordSpec with Matchers {
       when(twitchInputMock.message).thenReturn(messageObject)
       val endGame = ropePullingGame.handle(twitchInputMock)
       endGame._1 shouldBe RopePullingGame(List())
-      endGame._2.get shouldBe "score is 0"
+      endGame._2.get shouldBe "Game Over. Distance is 0. Its a draw! Everyone wins!"
     }
 
     "print the score on Print score command" in {
@@ -75,7 +74,6 @@ class RopePullingGameTest extends AnyWordSpec with Matchers {
       endGame._2 shouldBe None
     }
 
-
     "have the correct score after pulling left" in {
       val system: ActorSystem = ActorSystem("RopeSystem");
       val newRope = system.actorOf(Props[Rope](), s"Rope-Player1")
@@ -91,7 +89,6 @@ class RopePullingGameTest extends AnyWordSpec with Matchers {
       val endGame = ropePullingGame.handle(twitchInputMock)
       endGame._2.get shouldBe "score is -1"
     }
-
 
     "have the correct score after pulling right" in {
       val system: ActorSystem = ActorSystem("RopeSystem");
@@ -113,7 +110,7 @@ class RopePullingGameTest extends AnyWordSpec with Matchers {
       val system: ActorSystem = ActorSystem("RopeSystem");
       val newRope = system.actorOf(Props[Rope](), s"Rope-Player1")
       val ropePullingGame = RopePullingGame(List(newRope));
-      val messageObject = Message(Array.empty, "pull right ", 123123, "123123")
+      val messageObject = Message(Array.empty, "pull right @Player3", 123123, "123123")
       when(twitchInputMock.message).thenReturn(messageObject)
 
       val runningGame = ropePullingGame.handle(twitchInputMock)
