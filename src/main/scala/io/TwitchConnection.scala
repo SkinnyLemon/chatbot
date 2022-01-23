@@ -42,8 +42,8 @@ class TwitchConnectionImpl(accountName: String, authToken: String) extends Threa
     val token = input.readLine
     if (token == null)
       return
-        if (token.startsWith("PING")) then
-          output.write("PONG :tmi.twitch.tv\r\n")
+    if (token.startsWith("PING")) then
+      output.write("PONG :tmi.twitch.tv\r\n")
       output.flush()
     else
       subscribers.map(sub => Try(sub.onMessage(token)))
